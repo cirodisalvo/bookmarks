@@ -174,7 +174,7 @@ const links = `
 - [Ventoy](https://github.com/ventoy/Ventoy/releases)
 
 ## Browser
-- [MyDashboard](https://docs.google.com/spreadsheets/d/1zIyLXhIfn6mzYwRjn9ArNbyaPD1waH7IGa0Z0ExPUtE/edit?gid=1805985440#gid=1805985440)
+- [MyDashboard](https://github.com/cirodisalvo/bookmarks/edit/main/links.js)
 - [Addons Firefox](https://addons.mozilla.org/it/firefox/)
 - [Centro sviluppo](https://addons.mozilla.org/it/developers/addons)
 
