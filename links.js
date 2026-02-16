@@ -1,7 +1,7 @@
 const links = `
 # Personale 🧑‍🦲
 
-## Ricerca 
+## Ricerca
 - [DuckDuckGo](https://duckduckgo.com/)
 - [Startpage](https://www.startpage.com/)
 - [Google](https://www.google.com/)
