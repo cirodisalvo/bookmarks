@@ -18,6 +18,9 @@ const links = `
 - [Google Translate](https://translate.google.com/)
 - [Google Contacts](https://contacts.google.com/)
 
+## Social
+- [WhatsApp](https://web.whatsapp.com/)
+
 ## Cloud
 - [GDrive](https://drive.google.com/drive/my-drive)
 - [Pcloud](https://www.pcloud.com/it/)
