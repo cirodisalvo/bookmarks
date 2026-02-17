@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY DASHBOARD - Dark Edition</title>
+    <title>MY BOOKMARKS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
@@ -23,7 +23,7 @@
             --font-size-title: 0.75rem;
             --font-size-tab: 0.875rem;
             --font-size-brand: 1.8rem;
-            --font-size-clock: 1.7rem; /* Leggermente più grande */
+            --font-size-clock: 1.7rem;
             --widget-padding: 22px;
             --widget-margin: 20px;
             --grid-gap: 14px;
@@ -53,13 +53,64 @@
             background-repeat: no-repeat !important;
         }
 
-        body.custom-bg::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.3); 
-            backdrop-filter: brightness(0.8);
-            z-index: -1;
+body.custom-bg::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: transparent; /* Nessun overlay nero */
+    backdrop-filter: brightness(1); /* Nessuna regolazione di luminosità */
+    z-index: -1;
+}
+
+        /* LAYOUT FISSO CON SCROLL */
+        .fixed-layout {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .fixed-header {
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: inherit;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 3px solid var(--header-border);
+            padding: 0.5rem 0 0 0;
+            transition: padding 0.3s ease;
+        }
+
+        .scrollable-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 0.5rem 0.5rem 2rem 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) rgba(255,255,255,0.1);
+        }
+
+        /* Scrollbar personalizzata */
+        .scrollable-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollable-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background: rgba(96, 165, 250, 0.3);
+            border-radius: 10px;
+        }
+
+        .scrollable-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(96, 165, 250, 0.5);
         }
 
         .brand-title { 
@@ -74,9 +125,8 @@
         
         /* HEADER - Linea più evidente e stile migliorato */
         header { 
-            border-bottom: 3px solid var(--header-border); 
             backdrop-filter: blur(5px);
-            margin-bottom: 2rem;
+            margin-bottom: 0.5rem;
         }
         
         #digital-clock { 
@@ -625,9 +675,20 @@
         #settings-sidebar::-webkit-scrollbar-thumb:hover {
             background: rgba(96, 165, 250, 0.5);
         }
+
+        /* Responsive fixes */
+        @media (max-width: 768px) {
+            .fixed-header {
+                padding: 0.25rem 0 0 0;
+            }
+            
+            .brand-title {
+                font-size: calc(var(--font-size-brand) * 0.8);
+            }
+        }
     </style>
 </head>
-<body class="pb-20 px-3 md:px-6"> <!-- Margini ridotti: px-3 su mobile, px-6 su desktop -->
+<body class="fixed-layout px-3 md:px-6">
     <!-- Sidebar Overlay -->
     <div id="sidebar-overlay"></div>
     
@@ -708,32 +769,41 @@
         </div>
     </div>
 
-    <div class="max-w-[1600px] mx-auto">
-        <header class="py-6 md:py-8 flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
-            <h1 class="brand-title">MY <span class="text-blue-400">DASHBOARD</span></h1>
-            
-            <input type="text" id="search-bar" placeholder="Cerca un link..." class="w-full max-w-md py-3 px-6 rounded-2xl text-sm shadow-sm">
-            
-            <div class="flex items-center gap-4">
-                <div class="hidden md:flex items-center gap-3 clock-container">
-                    <div>
-                        <div id="digital-clock">00:00:00</div>
-                        <div id="digital-date" class="uppercase">Caricamento...</div>
-                    </div>
-                    <!-- Icona impostazioni -->
-                    <svg id="settings-toggle" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-                        <circle cx="12" cy="12" r="3"/>
-                    </svg>
-                </div>
-            </div>
-        </header>
+    <!-- HEADER FISSO -->
+    <div class="fixed-header">
+        <div class="max-w-[1600px] mx-auto">
+            <header class="py-4 md:py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <h1 class="brand-title">MY <span class="text-blue-400">BOOKMARKS</span></h1>
+                
+                <input type="text" id="search-bar" placeholder="Cerca un link..." class="w-full max-w-md py-3 px-6 rounded-2xl text-sm shadow-sm">
+                
+<div class="flex items-center gap-4">
+    <div class="flex items-center gap-3 clock-container">
+        <div>
+            <div id="digital-clock">00:00:00</div>
+            <div id="digital-date" class="uppercase">Caricamento...</div>
+        </div>
+        <!-- Icona impostazioni -->
+        <svg id="settings-toggle" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+            <circle cx="12" cy="12" r="3"/>
+        </svg>
+    </div>
+</div>
+            </header>
 
-        <nav id="tabs-nav" class="flex flex-wrap mb-8"></nav>
-        <div id="search-results"></div>
-        <main id="main-content">
-            <div id="loader" class="text-center py-20 text-gray-400 font-bold">Sincronizzazione...</div>
-        </main>
+            <nav id="tabs-nav" class="flex flex-wrap"></nav>
+        </div>
+    </div>
+
+    <!-- CONTENUTO SCORREVOLE -->
+    <div class="scrollable-content">
+        <div class="max-w-[1600px] mx-auto">
+            <div id="search-results"></div>
+            <main id="main-content">
+                <div id="loader" class="text-center py-20 text-gray-400 font-bold">Sincronizzazione...</div>
+            </main>
+        </div>
     </div>
 
     <!-- Input file nascosto per lo sfondo -->
@@ -1180,6 +1250,12 @@
             btn.classList.add('tab-active');
             const target = document.getElementById(id);
             if (target) target.classList.add('active');
+            
+            // Resetta lo scroll in alto quando si cambia tab
+            const scrollableContent = document.querySelector('.scrollable-content');
+            if (scrollableContent) {
+                scrollableContent.scrollTop = 0;
+            }
         }
 
         // ==================== SEARCH ====================
