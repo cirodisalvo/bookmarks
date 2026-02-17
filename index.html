@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
 
     <!-- Dice al browser di rispettare il tema del sito, non forzare nulla -->
     <meta name="color-scheme" content="dark light">
@@ -36,17 +36,27 @@
             
             /* Variabili per colonne */
             --columns-count: 3;
+            
+            /* Variabili per altezza */
+            --header-height: auto;
+            --available-height: 100vh;
         }
         
         body { 
             background: var(--bg-gradient);
             background-attachment: fixed; 
             min-height: 100vh;
+            min-height: -webkit-fill-available; /* Fix per browser mobile */
+            height: 100vh;
+            height: -webkit-fill-available; /* Fix per browser mobile */
             color: var(--text-main); 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             transition: background 0.3s ease, color 0.3s ease;
             position: relative;
             z-index: 1;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
         }
 
         body.custom-bg {
@@ -72,15 +82,16 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
+            height: -webkit-fill-available; /* Fix critico per Huawei */
             overflow: hidden;
             margin: 0;
             padding: 0;
+            position: relative;
         }
 
         .fixed-header {
             flex-shrink: 0;
-            position: sticky;
-            top: 0;
+            position: relative; /* Cambiato da sticky a relative per Huawei */
             z-index: 100;
             background: inherit;
             backdrop-filter: blur(10px);
@@ -88,17 +99,20 @@
             border-bottom: 3px solid var(--header-border);
             padding: 0.5rem 0 0 0;
             transition: padding 0.3s ease;
+            width: 100%;
         }
 
         .scrollable-content {
-            flex: 1;
+            flex: 1 1 auto;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 0.5rem 0.5rem calc(2rem + env(safe-area-inset-bottom, 2rem)) 0.5rem;
+            padding: 0.5rem 0.5rem 2rem 0.5rem;
             scrollbar-width: thin;
             scrollbar-color: var(--accent) rgba(255,255,255,0.1);
             -webkit-overflow-scrolling: touch;
             overscroll-behavior: contain;
+            max-height: 100%;
+            position: relative;
         }
 
         /* Scrollbar personalizzata */
@@ -118,15 +132,6 @@
 
         .scrollable-content::-webkit-scrollbar-thumb:hover {
             background: rgba(96, 165, 250, 0.5);
-        }
-
-        /* Indicatore di scroll */
-        .scrollable-content::after {
-            content: '';
-            display: block;
-            height: 1px;
-            width: 100%;
-            margin-top: 20px;
         }
 
         .brand-title { 
@@ -198,21 +203,18 @@
         
         /* WIDGET TRASPARENTI (GLASSMORPHISM) */
         .category-widget { 
-            display: inline-block; width: 100%; margin-bottom: var(--widget-margin); 
+            display: inline-block; 
+            width: 100%; 
+            margin-bottom: 20px; /* Usa valore fisso invece di var per sicurezza */
             background: var(--widget-bg); 
             backdrop-filter: blur(15px) saturate(160%); 
             -webkit-backdrop-filter: blur(15px) saturate(160%);
             border-radius: 30px; 
-            padding: var(--widget-padding); 
+            padding: 22px; /* Valore fisso per sicurezza */
             border: 1px solid var(--widget-border);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
             break-inside: avoid;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, padding 0.3s ease, margin 0.3s ease;
-        }
-        
-        /* Ultimo widget con più spazio */
-        .category-widget:last-child {
-            margin-bottom: calc(var(--widget-margin) * 2);
+            transition: all 0.3s ease;
         }
         
         /* Effetto hover: bordo illuminato */
@@ -226,49 +228,46 @@
         }
         
         .widget-title { 
-            font-size: var(--font-size-title); 
+            font-size: 0.75rem; 
             font-weight: 800; 
             color: #a0aec0; 
             text-transform: uppercase; 
-            margin-bottom: calc(18px * var(--scale-factor)); 
+            margin-bottom: 18px; 
             text-align: center; 
             letter-spacing: 0.5px;
-            transition: font-size 0.3s ease, margin-bottom 0.3s ease;
         }
         
         .links-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(calc(75px * var(--scale-factor)), 1fr)); 
-            gap: calc(14px * var(--scale-factor));
-            transition: gap 0.3s ease;
+            grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); 
+            gap: 14px;
         }
         
         .bookmark-pill { 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            gap: calc(8px * var(--scale-factor)); 
+            gap: 8px; 
             text-decoration: none; 
             transition: all 0.3s ease; 
-            padding: calc(8px * var(--scale-factor)); 
+            padding: 8px; 
             border-radius: 20px; 
         }
         .bookmark-pill:hover { 
             background: rgba(255, 255, 255, 0.1); 
-            transform: translateY(calc(-5px * var(--scale-factor))); 
+            transform: translateY(-5px); 
         }
         
         .favicon-box { 
-            width: var(--icon-size); 
-            height: var(--icon-size); 
+            width: 56px; 
+            height: 56px; 
             background: rgba(255, 255, 255, 0.1); 
-            border-radius: calc(16px * var(--scale-factor)); 
-            padding: var(--icon-padding); 
+            border-radius: 16px; 
+            padding: 11px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
-            transition: width 0.3s ease, height 0.3s ease, padding 0.3s ease, border-radius 0.3s ease; 
         }
         .favicon-box img { 
             width: 100%; 
@@ -280,7 +279,7 @@
         .favicon-box img:not([src]) { opacity: 0; }
         
         .link-label { 
-            font-size: var(--font-size-link); 
+            font-size: 0.7rem; 
             font-weight: 700; 
             text-align: center; 
             color: var(--text-main); 
@@ -288,11 +287,10 @@
             text-overflow: ellipsis; 
             white-space: nowrap; 
             width: 100%; 
-            transition: color 0.3s ease, font-size 0.3s ease; 
         }
         
         .tab-btn { 
-            padding: var(--tab-padding); 
+            padding: 9px 20px; 
             border-radius: 15px; 
             font-weight: 700; 
             color: #e2e8f0; 
@@ -300,12 +298,12 @@
             margin: 0 4px 8px 0; 
             cursor: pointer; 
             border: 1px solid rgba(255,255,255,0.1); 
-            transition: all 0.2s ease, padding 0.3s ease; 
-            font-size: var(--font-size-tab);
+            transition: all 0.2s ease; 
+            font-size: 0.875rem;
         }
         .tab-btn:hover { 
             background: rgba(50, 50, 50, 0.8); 
-            transform: translateY(calc(-2px * var(--scale-factor))); 
+            transform: translateY(-2px); 
         }
         .tab-active { 
             background: var(--accent); 
@@ -328,7 +326,6 @@
             border: 1px solid rgba(255,255,255,0.2); 
             font-size: 1.1rem; 
             color: var(--text-main); 
-            transition: background 0.3s ease, color 0.3s ease; 
         }
         #search-bar { 
             background: rgba(30, 30, 30, 0.7); 
@@ -336,20 +333,20 @@
             outline: none; 
             border: 1px solid rgba(255,255,255,0.2); 
             color: var(--text-main); 
-            transition: background 0.3s ease, color 0.3s ease; 
         }
         #search-bar::placeholder { 
             color: #a0aec0; 
         }
         .hidden-item { display: none !important; }
 
-        /* Sidebar destra - Glassmorphism migliorato per tema scuro */
+        /* Sidebar destra */
         #settings-sidebar {
             position: fixed;
             top: 0;
             right: -400px;
             width: 350px;
             height: 100vh;
+            height: -webkit-fill-available;
             background: rgba(20, 20, 20, 0.9);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -375,7 +372,6 @@
             backdrop-filter: blur(3px);
             z-index: 999;
             display: none;
-            transition: opacity 0.3s ease;
         }
 
         #sidebar-overlay.open {
@@ -425,7 +421,6 @@
             letter-spacing: 1px;
         }
 
-        /* Select menu per i temi */
         .theme-select {
             width: 100%;
             padding: 12px 16px;
@@ -697,47 +692,47 @@
             background: rgba(96, 165, 250, 0.5);
         }
 
-        /* Responsive fixes per tutti i dispositivi */
+        /* FIX SPECIFICI PER HUAWEI TABLET */
+        @media (max-width: 1024px) {
+            .fixed-layout {
+                height: 100vh;
+                height: calc(100vh - 1px); /* Forza il ricalcolo su Huawei */
+            }
+            
+            .scrollable-content {
+                padding-bottom: 4rem !important; /* Forza spazio extra */
+                max-height: calc(100vh - 120px); /* Calcolo altezza disponibile */
+            }
+            
+            .category-widget {
+                margin-bottom: 25px !important;
+            }
+            
+            .category-widget:last-child {
+                margin-bottom: 5rem !important; /* Tanto spazio per ultimo widget */
+            }
+            
+            /* Forza la visualizzazione completa */
+            body {
+                overflow: hidden;
+                position: fixed;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        /* Fix per schermi molto piccoli */
         @media (max-width: 768px) {
-            .fixed-header {
-                padding: 0.25rem 0 0 0;
-            }
-            
-            .brand-title {
-                font-size: calc(var(--font-size-brand) * 0.8);
-            }
-
-            .category-widget:last-child {
-                margin-bottom: calc(var(--widget-margin) * 2.5);
-            }
-
-            .page-content.active {
-                padding-bottom: 5rem;
-            }
-
             .scrollable-content {
-                padding-bottom: 5rem;
+                padding-bottom: 5rem !important;
             }
         }
 
-        @media (max-width: 1024px) and (min-width: 769px) {
-            .scrollable-content {
-                padding-bottom: 4rem;
-            }
-            
-            .page-content.active {
-                padding-bottom: 3rem;
-            }
-        }
-
-        @media (max-width: 375px) {
-            .scrollable-content {
-                padding-bottom: 5rem;
-            }
-            
-            .category-widget:last-child {
-                margin-bottom: 3rem;
-            }
+        /* Classe di utilità per forzare visibilità */
+        .force-visible {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
         }
     </style>
 </head>
@@ -850,7 +845,7 @@
     </div>
 
     <!-- CONTENUTO SCORREVOLE -->
-    <div class="scrollable-content">
+    <div class="scrollable-content" id="scrollable-content">
         <div class="max-w-[1600px] mx-auto">
             <div id="search-results"></div>
             <main id="main-content">
@@ -938,7 +933,6 @@
         sidebarDeleteBg.onclick = deleteBackground;
 
         // ==================== THEME MANAGEMENT (SELECT) ====================
-        // Default theme is now dark-default
         const savedTheme = localStorage.getItem('myDashTheme') || 'dark-default';
         themeSelect.value = savedTheme;
         applyTheme(savedTheme);
@@ -1023,19 +1017,15 @@
         const sizeValue = document.getElementById('size-value');
         const sizePresets = document.querySelectorAll('.size-preset');
         
-        // Carica dimensione salvata
         const savedSize = localStorage.getItem('myDashSize') || '100';
         sizeSlider.value = savedSize;
         sizeValue.textContent = savedSize + '%';
         
-        // Funzione per applicare la dimensione usando variabili CSS
         function applySize(size) {
             const scale = size / 100;
             
-            // Aggiorna display valore
             sizeValue.textContent = size + '%';
             
-            // Aggiorna variabili CSS
             document.documentElement.style.setProperty('--scale-factor', scale);
             document.documentElement.style.setProperty('--icon-size', `${56 * scale}px`);
             document.documentElement.style.setProperty('--icon-padding', `${11 * scale}px`);
@@ -1049,14 +1039,11 @@
             document.documentElement.style.setProperty('--grid-gap', `${14 * scale}px`);
             document.documentElement.style.setProperty('--tab-padding', `${9 * scale}px ${20 * scale}px`);
             
-            // Salva in localStorage
             localStorage.setItem('myDashSize', size);
         }
         
-        // Applica dimensione iniziale
         applySize(savedSize);
         
-        // Evidenzia preset attivo
         function updateActivePreset(size) {
             sizePresets.forEach(preset => {
                 if (preset.dataset.size === size) {
@@ -1068,14 +1055,12 @@
         }
         updateActivePreset(savedSize);
         
-        // Evento slider
         sizeSlider.addEventListener('input', (e) => {
             const size = e.target.value;
             applySize(size);
             updateActivePreset(size);
         });
         
-        // Eventi preset
         sizePresets.forEach(preset => {
             preset.addEventListener('click', () => {
                 const size = preset.dataset.size;
@@ -1090,27 +1075,18 @@
         const columnsValue = document.getElementById('columns-value');
         const columnsPresets = document.querySelectorAll('.columns-preset');
         
-        // Carica numero colonne salvato
         const savedColumns = localStorage.getItem('myDashColumns') || '3';
         columnsSlider.value = savedColumns;
         columnsValue.textContent = savedColumns;
         
-        // Funzione per applicare il numero di colonne
         function applyColumns(columns) {
-            // Aggiorna display valore
             columnsValue.textContent = columns;
-            
-            // Aggiorna variabile CSS
             document.documentElement.style.setProperty('--columns-count', columns);
-            
-            // Salva in localStorage
             localStorage.setItem('myDashColumns', columns);
         }
         
-        // Applica colonne iniziali
         applyColumns(savedColumns);
         
-        // Evidenzia preset attivo
         function updateActiveColumnsPreset(columns) {
             columnsPresets.forEach(preset => {
                 if (preset.dataset.columns === columns) {
@@ -1122,14 +1098,12 @@
         }
         updateActiveColumnsPreset(savedColumns);
         
-        // Evento slider
         columnsSlider.addEventListener('input', (e) => {
             const columns = e.target.value;
             applyColumns(columns);
             updateActiveColumnsPreset(columns);
         });
         
-        // Eventi preset
         columnsPresets.forEach(preset => {
             preset.addEventListener('click', () => {
                 const columns = preset.dataset.columns;
@@ -1150,31 +1124,46 @@
         setInterval(updateClock, 1000); 
         updateClock();
 
-        // ==================== TABLET/MOBILE FIX ====================
-        function adjustForMobile() {
-            const isMobile = window.matchMedia('(max-width: 768px)').matches;
-            const isTablet = window.matchMedia('(max-width: 1024px) and (min-width: 769px)').matches;
-            const scrollableContent = document.querySelector('.scrollable-content');
+        // ==================== FIX SPECIFICO PER HUAWEI TABLET ====================
+        function fixHuaweiTablet() {
+            const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
+            const scrollableContent = document.getElementById('scrollable-content');
+            const header = document.querySelector('.fixed-header');
             
-            if (scrollableContent) {
-                if (isMobile) {
-                    scrollableContent.style.paddingBottom = '6rem';
-                } else if (isTablet) {
-                    scrollableContent.style.paddingBottom = '5rem';
-                }
+            if (isTablet && scrollableContent) {
+                // Calcola l'altezza esatta disponibile
+                const headerHeight = header ? header.offsetHeight : 0;
+                const windowHeight = window.innerHeight;
+                const availableHeight = windowHeight - headerHeight - 20; // 20px di margine
                 
-                // Verifica se l'ultimo widget è visibile
+                // Imposta l'altezza massima
+                scrollableContent.style.maxHeight = availableHeight + 'px';
+                scrollableContent.style.paddingBottom = '80px'; // Tanto spazio extra
+                
+                // Forza un reflow
+                scrollableContent.style.display = 'none';
+                scrollableContent.offsetHeight; // Forza reflow
+                scrollableContent.style.display = '';
+                
+                // Verifica se l'ultimo elemento è visibile
                 setTimeout(() => {
                     const lastWidget = document.querySelector('.category-widget:last-child');
                     if (lastWidget) {
                         const widgetBottom = lastWidget.getBoundingClientRect().bottom;
                         const containerBottom = scrollableContent.getBoundingClientRect().bottom;
                         
-                        if (widgetBottom > containerBottom - 50) {
-                            scrollableContent.style.paddingBottom = '7rem';
+                        if (widgetBottom > containerBottom - 20) {
+                            // Se non è visibile, aumenta il padding
+                            scrollableContent.style.paddingBottom = '120px';
+                            
+                            // Prova a scrollare automaticamente per mostrare
+                            scrollableContent.scrollTo({
+                                top: scrollableContent.scrollHeight,
+                                behavior: 'smooth'
+                            });
                         }
                     }
-                }, 200);
+                }, 500);
             }
         }
 
@@ -1317,15 +1306,12 @@
             
             setupSearch();
             
-            // Riapplica il tema ai nuovi elementi
             applyTheme(localStorage.getItem('myDashTheme') || 'dark-default');
-            
-            // Riapplica dimensione e colonne
             applySize(localStorage.getItem('myDashSize') || '100');
             applyColumns(localStorage.getItem('myDashColumns') || '3');
             
-            // Applica fix per mobile/tablet
-            adjustForMobile();
+            // Applica fix Huawei
+            setTimeout(fixHuaweiTablet, 300);
         }
 
         function switchTab(btn, id) {
@@ -1335,12 +1321,10 @@
             const target = document.getElementById(id);
             if (target) target.classList.add('active');
             
-            // Resetta lo scroll in alto quando si cambia tab
             const scrollableContent = document.querySelector('.scrollable-content');
             if (scrollableContent) {
                 scrollableContent.scrollTop = 0;
-                // Ritarda leggermente il fix per permettere il rendering
-                setTimeout(adjustForMobile, 100);
+                setTimeout(fixHuaweiTablet, 200);
             }
         }
 
@@ -1381,14 +1365,19 @@
             });
         }
 
-        // Event listeners per resize e orientamento
+        // Event listeners
         window.addEventListener('load', () => {
             init();
-            adjustForMobile();
+            fixHuaweiTablet();
         });
         
-        window.addEventListener('resize', adjustForMobile);
-        window.addEventListener('orientationchange', adjustForMobile);
+        window.addEventListener('resize', () => {
+            setTimeout(fixHuaweiTablet, 100);
+        });
+        
+        window.addEventListener('orientationchange', () => {
+            setTimeout(fixHuaweiTablet, 300);
+        });
     </script>
 </body>
 </html>
