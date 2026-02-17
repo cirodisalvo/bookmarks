@@ -2,12 +2,12 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
     <!-- Dice al browser di rispettare il tema del sito, non forzare nulla -->
     <meta name="color-scheme" content="dark light">
     <meta name="supported-color-schemes" content="dark light">
-    
+
     <title>MY BOOKMARKS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
@@ -58,14 +58,14 @@
             background-repeat: no-repeat !important;
         }
 
-body.custom-bg::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: transparent; /* Nessun overlay nero */
-    backdrop-filter: brightness(1); /* Nessuna regolazione di luminosità */
-    z-index: -1;
-}
+        body.custom-bg::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent;
+            backdrop-filter: brightness(1);
+            z-index: -1;
+        }
 
         /* LAYOUT FISSO CON SCROLL */
         .fixed-layout {
@@ -94,9 +94,11 @@ body.custom-bg::before {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 0.5rem 0.5rem 2rem 0.5rem;
+            padding: 0.5rem 0.5rem calc(2rem + env(safe-area-inset-bottom, 2rem)) 0.5rem;
             scrollbar-width: thin;
             scrollbar-color: var(--accent) rgba(255,255,255,0.1);
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
         }
 
         /* Scrollbar personalizzata */
@@ -116,6 +118,15 @@ body.custom-bg::before {
 
         .scrollable-content::-webkit-scrollbar-thumb:hover {
             background: rgba(96, 165, 250, 0.5);
+        }
+
+        /* Indicatore di scroll */
+        .scrollable-content::after {
+            content: '';
+            display: block;
+            height: 1px;
+            width: 100%;
+            margin-top: 20px;
         }
 
         .brand-title { 
@@ -175,7 +186,7 @@ body.custom-bg::before {
             width: 100%;
             flex-wrap: wrap;
             gap: 18px;
-            padding: 20px 0;
+            padding: 20px 0 40px 0;
             justify-content: flex-start;
         }
         body.search-mode #search-results {
@@ -197,6 +208,11 @@ body.custom-bg::before {
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
             break-inside: avoid;
             transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+        }
+        
+        /* Ultimo widget con più spazio */
+        .category-widget:last-child {
+            margin-bottom: calc(var(--widget-margin) * 2);
         }
         
         /* Effetto hover: bordo illuminato */
@@ -681,7 +697,7 @@ body.custom-bg::before {
             background: rgba(96, 165, 250, 0.5);
         }
 
-        /* Responsive fixes */
+        /* Responsive fixes per tutti i dispositivi */
         @media (max-width: 768px) {
             .fixed-header {
                 padding: 0.25rem 0 0 0;
@@ -689,6 +705,38 @@ body.custom-bg::before {
             
             .brand-title {
                 font-size: calc(var(--font-size-brand) * 0.8);
+            }
+
+            .category-widget:last-child {
+                margin-bottom: calc(var(--widget-margin) * 2.5);
+            }
+
+            .page-content.active {
+                padding-bottom: 5rem;
+            }
+
+            .scrollable-content {
+                padding-bottom: 5rem;
+            }
+        }
+
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .scrollable-content {
+                padding-bottom: 4rem;
+            }
+            
+            .page-content.active {
+                padding-bottom: 3rem;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .scrollable-content {
+                padding-bottom: 5rem;
+            }
+            
+            .category-widget:last-child {
+                margin-bottom: 3rem;
             }
         }
     </style>
@@ -782,19 +830,19 @@ body.custom-bg::before {
                 
                 <input type="text" id="search-bar" placeholder="Cerca un link..." class="w-full max-w-md py-3 px-6 rounded-2xl text-sm shadow-sm">
                 
-<div class="flex items-center gap-4">
-    <div class="flex items-center gap-3 clock-container">
-        <div>
-            <div id="digital-clock">00:00:00</div>
-            <div id="digital-date" class="uppercase">Caricamento...</div>
-        </div>
-        <!-- Icona impostazioni -->
-        <svg id="settings-toggle" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-            <circle cx="12" cy="12" r="3"/>
-        </svg>
-    </div>
-</div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3 clock-container">
+                        <div>
+                            <div id="digital-clock">00:00:00</div>
+                            <div id="digital-date" class="uppercase">Caricamento...</div>
+                        </div>
+                        <!-- Icona impostazioni -->
+                        <svg id="settings-toggle" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </div>
+                </div>
             </header>
 
             <nav id="tabs-nav" class="flex flex-wrap"></nav>
@@ -1102,6 +1150,34 @@ body.custom-bg::before {
         setInterval(updateClock, 1000); 
         updateClock();
 
+        // ==================== TABLET/MOBILE FIX ====================
+        function adjustForMobile() {
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            const isTablet = window.matchMedia('(max-width: 1024px) and (min-width: 769px)').matches;
+            const scrollableContent = document.querySelector('.scrollable-content');
+            
+            if (scrollableContent) {
+                if (isMobile) {
+                    scrollableContent.style.paddingBottom = '6rem';
+                } else if (isTablet) {
+                    scrollableContent.style.paddingBottom = '5rem';
+                }
+                
+                // Verifica se l'ultimo widget è visibile
+                setTimeout(() => {
+                    const lastWidget = document.querySelector('.category-widget:last-child');
+                    if (lastWidget) {
+                        const widgetBottom = lastWidget.getBoundingClientRect().bottom;
+                        const containerBottom = scrollableContent.getBoundingClientRect().bottom;
+                        
+                        if (widgetBottom > containerBottom - 50) {
+                            scrollableContent.style.paddingBottom = '7rem';
+                        }
+                    }
+                }, 200);
+            }
+        }
+
         // ==================== DASHBOARD INIT ====================
         async function init() {
             loadSavedBackground();
@@ -1247,6 +1323,9 @@ body.custom-bg::before {
             // Riapplica dimensione e colonne
             applySize(localStorage.getItem('myDashSize') || '100');
             applyColumns(localStorage.getItem('myDashColumns') || '3');
+            
+            // Applica fix per mobile/tablet
+            adjustForMobile();
         }
 
         function switchTab(btn, id) {
@@ -1260,6 +1339,8 @@ body.custom-bg::before {
             const scrollableContent = document.querySelector('.scrollable-content');
             if (scrollableContent) {
                 scrollableContent.scrollTop = 0;
+                // Ritarda leggermente il fix per permettere il rendering
+                setTimeout(adjustForMobile, 100);
             }
         }
 
@@ -1300,7 +1381,14 @@ body.custom-bg::before {
             });
         }
 
-        window.onload = init;
+        // Event listeners per resize e orientamento
+        window.addEventListener('load', () => {
+            init();
+            adjustForMobile();
+        });
+        
+        window.addEventListener('resize', adjustForMobile);
+        window.addEventListener('orientationchange', adjustForMobile);
     </script>
 </body>
 </html>
