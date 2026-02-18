@@ -2,8 +2,10 @@ const links = `
 # Personale 🧑‍🦲
 
 ## Ricerca
-- [DuckDuckGo](https://duckduckgo.com/)
 - [Startpage](https://www.startpage.com/)
+- [Qwant](https://www.qwant.com/)
+- [Swisscows](https://swisscows.com/it)
+- [DuckDuckGo](https://duckduckgo.com/)
 - [Google](https://www.google.com/)
 - [Yahoo](https://it.search.yahoo.com/)
 
