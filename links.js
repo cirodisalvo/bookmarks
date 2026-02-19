@@ -216,4 +216,12 @@ const links = `
 - [CSV To HTML](https://www.convertcsv.com/csv-to-html.htm)
 - [HTML5 Editor](https://html5-editor.net/)
 
+---
+
+# Education
+
+## Lavagne
+- [Excalidrae](https://excalidraw.com/)
+
+
 `;
