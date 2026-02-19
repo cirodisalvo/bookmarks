@@ -218,7 +218,7 @@ const links = `
 
 ---
 
-# Education
+# Education 🎓
 
 ## Lavagne
 - [Excalidrae](https://excalidraw.com/)
