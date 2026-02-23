@@ -75,6 +75,7 @@ const links = `
 - [Google Calendar](https://calendar.google.com/)
 
 ## Registro elettronico
+- [Portale Argo](https://www.portaleargo.it/)
 - [Argo didUP](https://www.portaleargo.it/voti/)
 - [Classeviva](https://web.spaggiari.eu/home/app/default/login.php)
 
