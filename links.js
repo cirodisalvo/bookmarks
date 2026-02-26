@@ -5,6 +5,7 @@ const links = `
 - [Startpage](https://www.startpage.com/)
 - [Qwant](https://www.qwant.com/)
 - [Swisscows](https://swisscows.com/it)
+- [Searxng](https://searxng.devol.it/)
 - [DuckDuckGo](https://duckduckgo.com/)
 - [Google](https://www.google.com/)
 - [Yahoo](https://it.search.yahoo.com/)
