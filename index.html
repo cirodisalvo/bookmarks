@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-
     <meta name="color-scheme" content="dark light">
-    <meta name="supported-color-schemes" content="dark light">
 
     <title>MY BOOKMARKS</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,7 +27,6 @@
             --font-size-brand: 1.8rem;
             --font-size-clock: 1.7rem;
             --widget-padding: 22px;
-            --widget-margin: 20px;
             --grid-gap: 14px;
             --tab-padding: 9px 20px;
             
@@ -73,7 +70,7 @@
         .fixed-layout {
             display: flex;
             flex-direction: column;
-            height: 100vh; /* vh semplice e universale */
+            height: 100vh;
             overflow: hidden;
             margin: 0;
             padding: 0;
@@ -93,7 +90,7 @@
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 0.5rem 0.5rem 0 0.5rem; /* NESSUN padding in basso */
+            padding: 0.5rem 0.5rem 0 0.5rem;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: thin;
             scrollbar-color: var(--accent) rgba(255,255,255,0.1);
@@ -197,7 +194,7 @@
         
         .category-widget:hover {
             border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+            box-shadow: 0 0 20px var(--accent);
         }
         
         .widget-title { 
@@ -576,42 +573,40 @@
                 </div>
             </div>
         </div>
-    
-        <!-- DIV INVISIBILE PER SPAZIO IN BASSO NELLA SIDEBAR -->
+
+         <!-- DIV INVISIBILE PER SPAZIO IN BASSO NELLA SIDEBAR - IMPORTANTE PER TABLET -->
         <div style="height: 150px; width: 100%; opacity: 0; pointer-events: none;"></div>
-    
-    </div>
+    </div> <!-- Chiusura settings-sidebar -->
 
     <!-- HEADER -->
     <div class="fixed-header">
         <div class="max-w-[1600px] mx-auto">
-            <!-- HEADER SEMPLICE UNIVERSALE - sostituisci il tuo header attuale -->
-<header class="py-2 flex flex-col md:flex-row md:items-center gap-2">
-    <!-- Riga superiore mobile: titolo e orologio/ingranaggio -->
-    <div class="flex items-center justify-between w-full md:w-1/4">
-        <h1 class="brand-title whitespace-nowrap text-lg md:text-xl">MY <span class="text-blue-400">BOOKMARKS</span></h1>
-        <div class="flex items-center gap-2 md:hidden">
-            <div id="digital-clock-mobile" class="text-sm font-bold"></div>
-            <svg id="settings-toggle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white">
-                <circle cx="12" cy="12" r="3"/><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-            </svg>
-        </div>
-    </div>
-    
-    <!-- Search bar centrale e lunga -->
-    <input type="text" id="search-bar" placeholder="Cerca un link..." class="w-full md:w-1/2 py-2 px-4 rounded-2xl text-sm bg-white/10 backdrop-blur border border-white/20 text-white placeholder-white/50 mx-auto md:mx-0">
-    
-    <!-- Desktop orologio (occupa 1/4 come il titolo) -->
-    <div class="hidden md:flex items-center gap-3 w-1/4 justify-end">
-        <div class="text-right">
-            <div id="digital-clock" class="text-lg font-bold">00:00:00</div>
-            <div id="digital-date" class="text-xs opacity-70"></div>
-        </div>
-        <svg id="settings-toggle-desktop" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white cursor-pointer">
-            <circle cx="12" cy="12" r="3"/><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-        </svg>
-    </div>
-</header>
+            <header class="py-2 flex flex-col md:flex-row md:items-center gap-2">
+                <!-- Riga superiore mobile: titolo e orologio/ingranaggio -->
+                <div class="flex items-center justify-between w-full md:w-1/4">
+                    <h1 class="brand-title whitespace-nowrap text-lg md:text-xl">MY <span class="text-blue-400">BOOKMARKS</span></h1>
+                    <div class="flex items-center gap-2 md:hidden">
+                        <div id="digital-clock-mobile" class="text-sm font-bold"></div>
+                        <svg id="settings-toggle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white">
+                            <circle cx="12" cy="12" r="3"/><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Search bar centrale e lunga -->
+                <input type="text" id="search-bar" placeholder="Cerca un link..." class="w-full md:w-1/2 py-2 px-4 rounded-2xl text-sm bg-white/10 backdrop-blur border border-white/20 text-white placeholder-white/50 mx-auto md:mx-0">
+                
+                <!-- Desktop orologio (occupa 1/4 come il titolo) -->
+                <div class="hidden md:flex items-center gap-3 w-1/4 justify-end">
+                    <div class="text-right">
+                        <div id="digital-clock" class="text-lg font-bold">00:00:00</div>
+                        <div id="digital-date" class="text-xs opacity-70"></div>
+                    </div>
+                    <svg id="settings-toggle-desktop" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white cursor-pointer">
+                        <circle cx="12" cy="12" r="3"/><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                    </svg>
+                </div>
+            </header>
 
             <nav id="tabs-nav" class="flex flex-wrap"></nav>
         </div>
@@ -624,7 +619,7 @@
             <main id="main-content">
                 <div id="loader" class="text-center py-20 text-gray-400 font-bold">Sincronizzazione...</div>
             </main>
-            <!-- DIV INVISIBILE CHE CREA SPAZIO FISICO IN BASSO -->
+            <!-- Div invisibile che crea spazio fisico in basso -->
             <div style="height: 150px; width: 100%; opacity: 0; pointer-events: none;"></div>
         </div>
     </div>
@@ -634,8 +629,6 @@
 
     <script src="links.js"></script>
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4DTEur9i-lKmBGBjAyThm7z55CuUzA7K68bWvZ_iqwjaZPLzPPT-Tl2KH009nP-M/exec';
-
         // DOM Elements
         const bgUpload = document.getElementById('bg-upload');
         const sidebarDeleteBg = document.getElementById('sidebar-delete-bg');
@@ -646,6 +639,20 @@
         const sidebarClose = document.getElementById('sidebar-close');
         const themeSelect = document.getElementById('theme-select');
         const scrollableContent = document.getElementById('scrollable-content');
+
+        // ==================== FUNZIONI DI SICUREZZA ====================
+        function sanitizeUrl(url) {
+            try {
+                const parsed = new URL(url);
+                // Permetti solo http e https
+                if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+                    return '#'; // Link non valido
+                }
+                return url;
+            } catch {
+                return '#'; // URL malformato
+            }
+        }
 
         // ==================== SIDEBAR TOGGLE ====================
         function openSidebar() {
@@ -660,7 +667,10 @@
             document.body.style.overflow = '';
         }
 
-        settingsToggle.addEventListener('click', openSidebar);
+        document.querySelectorAll('#settings-toggle, #settings-toggle-desktop').forEach(btn => {
+            btn.addEventListener('click', openSidebar);
+        });
+        
         sidebarClose.addEventListener('click', closeSidebar);
         sidebarOverlay.addEventListener('click', closeSidebar);
 
@@ -800,7 +810,6 @@
             document.documentElement.style.setProperty('--font-size-brand', `${1.8 * scale}rem`);
             document.documentElement.style.setProperty('--font-size-clock', `${1.7 * scale}rem`);
             document.documentElement.style.setProperty('--widget-padding', `${22 * scale}px`);
-            document.documentElement.style.setProperty('--widget-margin', `${20 * scale}px`);
             document.documentElement.style.setProperty('--grid-gap', `${14 * scale}px`);
             document.documentElement.style.setProperty('--tab-padding', `${9 * scale}px ${20 * scale}px`);
             
@@ -871,30 +880,24 @@
         });
 
         // ==================== CLOCK ====================
-
-function updateClock() {
-    const now = new Date();
-    const timeFull = now.toLocaleTimeString('it-IT');
-    const timeShort = now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-    const dateStr = now.toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short' });
-    
-    // Desktop
-    const clockEl = document.getElementById('digital-clock');
-    if (clockEl) clockEl.innerText = timeFull;
-    const dateEl = document.getElementById('digital-date');
-    if (dateEl) dateEl.innerText = dateStr;
-    
-    // Mobile
-    const mobileClock = document.getElementById('digital-clock-mobile');
-    if (mobileClock) mobileClock.innerText = timeShort;
-}
-setInterval(updateClock, 1000);
-updateClock();
-
-// Unico toggle per entrambi gli ingranaggi
-document.querySelectorAll('#settings-toggle, #settings-toggle-desktop').forEach(btn => {
-    btn.addEventListener('click', openSidebar);
-});
+        function updateClock() {
+            const now = new Date();
+            const timeFull = now.toLocaleTimeString('it-IT');
+            const timeShort = now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+            const dateStr = now.toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short' });
+            
+            // Desktop
+            const clockEl = document.getElementById('digital-clock');
+            if (clockEl) clockEl.innerText = timeFull;
+            const dateEl = document.getElementById('digital-date');
+            if (dateEl) dateEl.innerText = dateStr;
+            
+            // Mobile
+            const mobileClock = document.getElementById('digital-clock-mobile');
+            if (mobileClock) mobileClock.innerText = timeShort;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
         // ==================== DASHBOARD INIT ====================
         async function init() {
@@ -994,9 +997,13 @@ document.querySelectorAll('#settings-toggle, #settings-toggle-desktop').forEach(
                     links.forEach(l => {
                         let domain = "google.com";
                         try { domain = new URL(l.url).hostname; } catch(e) {}
-                        html += `<a href="${l.url}" target="_blank" title="${l.title}" class="bookmark-pill" data-title="${l.title.toLowerCase()}">
+                        
+                        // Usa sanitizeUrl per proteggere da URL malevoli
+                        const safeUrl = sanitizeUrl(l.url);
+                        
+                        html += `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer" title="${l.title}" class="bookmark-pill" data-title="${l.title.toLowerCase()}">
                             <div class="favicon-box">
-                                <img loading="lazy" src="https://www.google.com/s2/favicons?sz=64&domain=${domain}" alt="${l.title}">
+                                 <img loading="lazy" src="https://icons.duckduckgo.com/ip3/${domain}.ico" alt="${l.title}">
                             </div>
                             <span class="link-label">${l.title}</span>
                         </a>`;
