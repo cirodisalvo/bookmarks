@@ -23,6 +23,7 @@ const links = `
 
 ## Social
 - [WhatsApp](https://web.whatsapp.com/)
+- [Telegram](https://web.telegram.org)
 
 ## Cloud
 - [GDrive](https://drive.google.com/drive/my-drive)
