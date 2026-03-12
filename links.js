@@ -29,7 +29,7 @@ const links = `
 - [GDrive](https://drive.google.com/drive/my-drive)
 - [Pcloud](https://www.pcloud.com/it/)
 - [pCloud share](http://tinyurl.com/share-pcloud-ciro)
-- [Microsoft OneDrive](https://onedrive.live.com/login)
+- [OneDrive](https://onedrive.live.com/login)
 
 ## Email
 - [Gmail](https://mail.google.com/mail/u/0/#inbox)
