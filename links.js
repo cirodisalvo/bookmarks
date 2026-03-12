@@ -11,15 +11,15 @@ const links = `
 - [Yahoo](https://it.search.yahoo.com/)
 
 ## Google
-- [My Account](https://myaccount.google.com/)
+- [Account](https://myaccount.google.com/)
 - [YouTube](https://www.youtube.com/)
 - [Keep](https://keep.google.com/)
 - [GDrive](https://drive.google.com/)
-- [G-Calendar](https://calendar.google.com/)
-- [G-Maps](https://www.google.com/maps)
-- [G-Meet](https://meet.google.com/)
-- [G-Translate](https://translate.google.com/)
-- [G-Contacts](https://contacts.google.com/)
+- [Calendar](https://calendar.google.com/)
+- [Maps](https://www.google.com/maps)
+- [Meet](https://meet.google.com/)
+- [Translate](https://translate.google.com/)
+- [Contacts](https://contacts.google.com/)
 
 ## Social
 - [WhatsApp](https://web.whatsapp.com/)
