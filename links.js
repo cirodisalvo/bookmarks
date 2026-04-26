@@ -30,6 +30,7 @@ const links = `
 - [Pcloud](https://www.pcloud.com/it/)
 - [pCloud share](http://tinyurl.com/share-pcloud-ciro)
 - [OneDrive](https://onedrive.live.com/login)
+- [Koofr](https://app.koofr.net/)
 
 ## Email
 - [Gmail](https://mail.google.com/mail/u/0/#inbox)
