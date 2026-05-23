@@ -116,6 +116,10 @@ const links = `
 - [MagicSchool AI](https://app.magicschool.ai/tools)
 - [Teachable Machine](https://teachablemachine.withgoogle.com/)
 
+## Formazione
+- [CFI-Scuola](https://corsi.cfiscuola.it)
+- [LearnIN-Spaggiari](https://fad.euservice.it)
+
 ---
 
 # Italiano 🇮🇹
