@@ -50,6 +50,7 @@ const links = `
 - [ho. Mobile](https://www.ho-mobile.it/login.html)
 - [PayPal](https://www.paypal.com/it/signin)
 - [Reinold's Fashion SGG](https://www.reinolds.it/web/)
+- [UPIM](https://www.upim.com)
 
 ## IA
 - [Google Gemini](https://gemini.google.com/app)
