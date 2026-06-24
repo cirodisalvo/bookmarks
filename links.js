@@ -112,6 +112,7 @@ const links = `
 ## Università
 - [Pegaso](https://lms.pegaso.multiversity.click/)
 - [Portale ANIS](https://www.anis.mur.gov.it/)
+- [Mnemosine Formazione](https://www.formazionedocenti.it)
 
 ## IA Scuola
 - [MagicSchool AI](https://app.magicschool.ai/tools)
