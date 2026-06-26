@@ -42,6 +42,7 @@ const links = `
 ## Shop
 - [UniCredit Banca](https://www.unicredit.it/it/privati.html)
 - [Poste Ita](https://www.poste.it/)
+- [EdisonEnergia](https://www.edisonenergia.it/login)
 - [Amazon](https://www.amazon.it/)
 - [Cotton&Silk](https://www.cottonsilk.it/it)
 - [Privalia](https://it.privalia.com/gr/home/default)
