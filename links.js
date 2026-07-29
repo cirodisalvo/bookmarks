@@ -31,6 +31,7 @@ const links = `
 - [pCloud share](http://tinyurl.com/share-pcloud-ciro)
 - [OneDrive](https://onedrive.live.com/login)
 - [Koofr](https://app.koofr.net/)
+- [Disroot](https://cloud.disroot.org)
 
 ## Email
 - [Gmail](https://mail.google.com/mail/u/0/#inbox)
