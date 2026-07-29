@@ -38,6 +38,7 @@ const links = `
 - [Yahoo](https://login.yahoo.com/)
 - [Pec mail](https://webmail.pec.it/)
 - [Domicilio digitale](https://domiciliodigitale.gov.it/dgit/home/public/#!/home)
+- [Disroot](https://webmail.disroot.org)
 
 ## Shop
 - [UniCredit Banca](https://www.unicredit.it/it/privati.html)
