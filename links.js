@@ -54,6 +54,7 @@ const links = `
 - [PayPal](https://www.paypal.com/it/signin)
 - [Reinold's Fashion SGG](https://www.reinolds.it/web/)
 - [UPIM](https://www.upim.com)
+- [AutoDoc](https://www.auto-doc.it)
 
 ## IA
 - [Google Gemini](https://gemini.google.com/app)
