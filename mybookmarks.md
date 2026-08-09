@@ -63,6 +63,7 @@
 - [DeepSeek](https://chat.deepseek.com/)
 - [Qwen Chat](https://chat.qwen.ai/)
 - [Z.ai Chat](https://chat.z.ai/)
+- [NotebookLM](https://notebook.google.com)
 
 ## Notizie
 - [Ansa](https://www.ansa.it/)
