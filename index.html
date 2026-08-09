@@ -593,7 +593,7 @@
                 </div>
                 
                 <!-- Search bar centrale e lunga -->
-                <input type="text" id="search-bar" placeholder="Cerca un link..." class="w-full md:w-1/2 py-2 px-4 rounded-2xl text-sm bg-white/10 backdrop-blur border border-white/20 text-white placeholder-white/50 mx-auto md:mx-0">
+                <input type="text" id="search-bar" placeholder="Cerca un link... (Cmd ⌘ / Ctrl + K)" class="w-full md:w-1/2 py-2 px-4 rounded-2xl text-sm bg-white/10 backdrop-blur border border-white/20 text-white placeholder-white/50 mx-auto md:mx-0">
                 
                 <!-- Desktop orologio (occupa 1/4 come il titolo) -->
                 <div class="hidden md:flex items-center gap-3 w-1/4 justify-end">
@@ -1090,6 +1090,15 @@
                 }, 150);
             });
         }
+
+        // ==================== KEYBOARD SHORTCUT ====================
+        window.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                const searchBar = document.getElementById('search-bar');
+                if (searchBar) searchBar.focus();
+            }
+        });
 
         window.addEventListener('load', init);
     </script>
