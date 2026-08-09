@@ -175,6 +175,22 @@
         body.search-mode .page-content {
             display: none !important;
         }
+
+        @keyframes resultItemFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        body.search-mode #search-results .bookmark-pill {
+            animation: resultItemFadeIn 0.3s ease-out forwards;
+        }
+
+        body.search-mode #search-results .bookmark-pill:nth-child(1) { animation-delay: 0.05s; }
+        body.search-mode #search-results .bookmark-pill:nth-child(2) { animation-delay: 0.1s; }
+        body.search-mode #search-results .bookmark-pill:nth-child(3) { animation-delay: 0.15s; }
+        body.search-mode #search-results .bookmark-pill:nth-child(4) { animation-delay: 0.2s; }
+        body.search-mode #search-results .bookmark-pill:nth-child(5) { animation-delay: 0.25s; }
+        body.search-mode #search-results .bookmark-pill:nth-child(n+6) { animation-delay: 0.3s; }
         
         /* WIDGET */
         .category-widget { 
@@ -302,10 +318,32 @@
             backdrop-filter: blur(10px); 
             outline: none; 
             border: 1px solid rgba(255,255,255,0.2); 
-            color: var(--text-main); 
+            color: var(--text-main);
+            transition: all 0.3s ease;
         }
         #search-bar::placeholder { 
             color: #a0aec0; 
+        }
+
+        /* Animazioni ricerca */
+        @keyframes searchPulse {
+            0% { border-color: rgba(255,255,255,0.2); box-shadow: 0 0 0 0 rgba(96, 165, 250, 0); }
+            50% { border-color: var(--accent); box-shadow: 0 0 15px rgba(96, 165, 250, 0.4); }
+            100% { border-color: var(--accent); box-shadow: 0 0 0 0 rgba(96, 165, 250, 0); }
+        }
+
+        body.search-mode #search-bar {
+            animation: searchPulse 0.6s ease-out;
+            border-color: var(--accent);
+        }
+
+        @keyframes resultsSlideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body.search-mode #search-results {
+            animation: resultsSlideIn 0.4s ease-out forwards;
         }
 
         /* Sidebar */
@@ -1093,10 +1131,18 @@
 
         // ==================== KEYBOARD SHORTCUT ====================
         window.addEventListener('keydown', (e) => {
+            const searchBar = document.getElementById('search-bar');
+            
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                 e.preventDefault();
-                const searchBar = document.getElementById('search-bar');
                 if (searchBar) searchBar.focus();
+            }
+            
+            if (e.key === 'Escape' && searchBar === document.activeElement) {
+                e.preventDefault();
+                searchBar.value = '';
+                searchBar.dispatchEvent(new Event('input', { bubbles: true }));
+                searchBar.blur();
             }
         });
 
