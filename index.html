@@ -7,15 +7,17 @@
 
     <title>MY BOOKMARKS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --accent: #60a5fa;
-            --text-main: #ffffff;
-            --bg-gradient: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            --widget-bg: rgba(30, 30, 30, 0.7);
-            --widget-border: rgba(255, 255, 255, 0.15);
-            --header-border: rgba(255, 255, 255, 0.1);
+            --accent: #3b82f6;
+            --accent-2: #64748b;
+            --accent-3: #94a3b8;
+            --text-main: #e5e7eb;
+            --bg-gradient: linear-gradient(160deg, #0b1120 0%, #111827 55%, #0d1424 100%);
+            --widget-bg: rgba(30, 41, 59, 0.45);
+            --widget-border: rgba(148, 163, 184, 0.16);
+            --header-border: rgba(148, 163, 184, 0.22);
             
             /* Variabili per dimensioni scalabili */
             --scale-factor: 1;
@@ -34,12 +36,67 @@
             --columns-count: 3;
         }
         
+        /* OCEAN THEME */
+        body.theme-ocean {
+            --accent: #0ea5e9;
+            --accent-2: #0284c7;
+            --accent-3: #38bdf8;
+            --bg-gradient: linear-gradient(160deg, #0a1420 0%, #0d2233 55%, #0a1a26 100%);
+            --widget-bg: rgba(14, 165, 233, 0.06);
+            --widget-border: rgba(14, 165, 233, 0.16);
+            --header-border: rgba(14, 165, 233, 0.24);
+        }
+        
+        /* FOREST THEME */
+        body.theme-forest {
+            --accent: #22c55e;
+            --accent-2: #16a34a;
+            --accent-3: #4ade80;
+            --bg-gradient: linear-gradient(160deg, #0b1712 0%, #12241a 55%, #0d1c15 100%);
+            --widget-bg: rgba(34, 197, 94, 0.06);
+            --widget-border: rgba(34, 197, 94, 0.16);
+            --header-border: rgba(34, 197, 94, 0.24);
+        }
+        
+        /* GRAPHITE THEME */
+        body.theme-cyberpunk {
+            --accent: #64748b;
+            --accent-2: #475569;
+            --accent-3: #94a3b8;
+            --bg-gradient: linear-gradient(160deg, #0a0a0a 0%, #141414 55%, #0e0e0e 100%);
+            --widget-bg: rgba(100, 116, 139, 0.07);
+            --widget-border: rgba(148, 163, 184, 0.16);
+            --header-border: rgba(148, 163, 184, 0.24);
+        }
+        
+        /* MINIMAL DARK THEME */
+        body.theme-minimal {
+            --accent: #9ca3af;
+            --accent-2: #6b7280;
+            --accent-3: #4b5563;
+            --bg-gradient: linear-gradient(160deg, #0a0a0a 0%, #171717 55%, #101010 100%);
+            --widget-bg: rgba(120, 120, 120, 0.06);
+            --widget-border: rgba(140, 140, 140, 0.14);
+            --header-border: rgba(140, 140, 140, 0.2);
+        }
+        
+        /* AMBER THEME */
+        body.theme-retro {
+            --accent: #f59e0b;
+            --accent-2: #d97706;
+            --accent-3: #fbbf24;
+            --bg-gradient: linear-gradient(160deg, #1a1408 0%, #241d0d 55%, #191408 100%);
+            --widget-bg: rgba(245, 158, 11, 0.06);
+            --widget-border: rgba(245, 158, 11, 0.16);
+            --header-border: rgba(245, 158, 11, 0.24);
+        }
+        
         body { 
             background: var(--bg-gradient);
             background-attachment: fixed; 
             min-height: 100vh;
             color: var(--text-main); 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
             transition: background 0.3s ease, color 0.3s ease;
             position: relative;
             z-index: 1;
@@ -113,11 +170,10 @@
 
         .brand-title { 
             font-size: var(--font-size-brand); 
-            font-weight: 900; 
-            font-style: italic; 
+            font-weight: 700; 
+            letter-spacing: -0.02em;
             text-transform: uppercase; 
-            color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            color: var(--text-main);
             transition: font-size 0.3s ease;
         }
         
@@ -127,19 +183,19 @@
         
         #digital-clock { 
             font-size: var(--font-size-clock); 
-            font-weight: 800; 
-            color: #ffffff; 
+            font-weight: 700; 
+            color: var(--text-main);
             font-variant-numeric: tabular-nums; 
-            letter-spacing: -1px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: -0.5px;
             transition: font-size 0.3s ease;
         }
         .clock-container { min-width: 140px; text-align: right; }
         #digital-date { 
             font-size: 0.75rem; 
-            font-weight: 600; 
-            color: #a0aec0; 
+            font-weight: 500; 
+            color: #94a3b8; 
             text-transform: uppercase; 
+            letter-spacing: 0.03em;
         }
         
         .page-content { display: none; width: 100%; }
@@ -198,28 +254,33 @@
             width: 100%; 
             margin-bottom: 20px; 
             background: var(--widget-bg); 
-            backdrop-filter: blur(15px) saturate(160%); 
-            -webkit-backdrop-filter: blur(15px) saturate(160%);
-            border-radius: 30px; 
-            padding: 22px; 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 10px; 
+            padding: 20px; 
             border: 1px solid var(--widget-border);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
             break-inside: avoid;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
         }
         
         .category-widget:hover {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px var(--accent);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+            border-color: rgba(148, 163, 184, 0.32);
         }
         
         .widget-title { 
             font-size: var(--font-size-title); 
-            font-weight: 800; 
-            color: #a0aec0; 
+            font-weight: 700; 
+            color: #94a3b8; 
             text-transform: uppercase; 
-            margin-bottom: 18px; 
+            margin-bottom: 16px; 
             text-align: center; 
-            letter-spacing: 0.5px;
+            letter-spacing: 0.06em;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--widget-border);
         }
         
         .links-grid { 
@@ -234,36 +295,38 @@
             align-items: center; 
             gap: 8px; 
             text-decoration: none; 
-            transition: all 0.3s ease; 
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease; 
             padding: 8px; 
-            border-radius: 20px; 
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .bookmark-pill:hover { 
-            background: rgba(255, 255, 255, 0.1); 
-            transform: translateY(-5px); 
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--accent);
+            transform: translateY(-2px);
         }
         
         .favicon-box { 
             width: var(--icon-size); 
             height: var(--icon-size); 
-            background: rgba(255, 255, 255, 0.1); 
-            border-radius: 16px; 
+            background: rgba(255, 255, 255, 0.06); 
+            border-radius: 8px; 
             padding: var(--icon-padding); 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
         }
         .favicon-box img { 
             width: 100%; 
             height: 100%; 
             object-fit: contain; 
-            filter: brightness(0.9);
+            filter: brightness(0.95);
         }
         
         .link-label { 
             font-size: var(--font-size-link); 
-            font-weight: 700; 
+            font-weight: 600; 
             text-align: center; 
             color: var(--text-main); 
             overflow: hidden; 
@@ -274,43 +337,59 @@
         
         .tab-btn { 
             padding: var(--tab-padding); 
-            border-radius: 15px; 
-            font-weight: 700; 
-            color: #e2e8f0; 
-            background: rgba(30, 30, 30, 0.6); 
+            border-radius: 8px; 
+            font-weight: 600; 
+            color: #cbd5e1; 
+            background: rgba(255, 255, 255, 0.03); 
             margin: 0 4px 8px 0; 
             cursor: pointer; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            transition: all 0.2s ease; 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            transition: background 0.2s ease, border-color 0.2s ease; 
             font-size: var(--font-size-tab);
         }
         .tab-btn:hover { 
-            background: rgba(50, 50, 50, 0.8); 
-            transform: translateY(-2px); 
+            background: rgba(255, 255, 255, 0.06); 
+            border-color: rgba(148, 163, 184, 0.3);
         }
         
         .tab-btn.tab-active {
             background: var(--accent);
             color: #ffffff;
-            box-shadow: 0 8px 20px rgba(96, 165, 250, 0.3);
+            border-color: var(--accent);
         }
 
         .tab-btn.tab-active:hover {
             background: var(--accent);
+            opacity: 0.92;
         }
         
         #notes-area { 
             width: 100%; 
             height: 60vh; 
-            background: rgba(30, 30, 30, 0.7); 
-            backdrop-filter: blur(15px); 
-            border-radius: 30px; 
-            padding: 30px; 
+            background: transparent; 
+            padding: 4px; 
             outline: none; 
             resize: none; 
-            border: 1px solid rgba(255,255,255,0.2); 
-            font-size: 1.1rem; 
+            border: none; 
+            font-size: 1rem; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--text-main); 
+        }
+
+        .notes-widget {
+            background: var(--widget-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid var(--widget-border);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .notes-widget:hover {
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+            border-color: rgba(148, 163, 184, 0.32);
         }
         
         #search-bar { 
@@ -327,9 +406,9 @@
 
         /* Animazioni ricerca */
         @keyframes searchPulse {
-            0% { border-color: rgba(255,255,255,0.2); box-shadow: 0 0 0 0 rgba(96, 165, 250, 0); }
-            50% { border-color: var(--accent); box-shadow: 0 0 15px rgba(96, 165, 250, 0.4); }
-            100% { border-color: var(--accent); box-shadow: 0 0 0 0 rgba(96, 165, 250, 0); }
+            0% { border-color: rgba(255,255,255,0.2); }
+            50% { border-color: var(--accent); }
+            100% { border-color: var(--accent); }
         }
 
         body.search-mode #search-bar {
@@ -397,11 +476,11 @@
         }
 
         .settings-title {
-            font-size: 1.8rem;
-            font-weight: 800;
+            font-size: 1.5rem;
+            font-weight: 700;
             margin-bottom: 30px;
             color: #ffffff;
-            border-bottom: 3px solid var(--accent);
+            border-bottom: 1px solid rgba(255,255,255,0.12);
             padding-bottom: 15px;
         }
 
@@ -520,6 +599,49 @@
             background: var(--accent);
             border-color: var(--accent);
         }
+        
+        /* THEME BUTTONS */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .theme-btn {
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .theme-btn:hover {
+            border-color: var(--accent);
+        }
+        
+        .theme-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #ffffff;
+            font-weight: 700;
+        }
+        
+        .theme-color-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
 
         .columns-slider-labels {
             display: flex;
@@ -559,15 +681,14 @@
         <!-- Sezione Temi -->
         <div class="settings-section">
             <h3>Tema</h3>
-            <select id="theme-select" class="theme-select">
-                <option value="dark-default">🌑 Dark Default</option>
-                <option value="dark-blue">🌊 Dark Blue</option>
-                <option value="dark-purple">🪻 Dark Purple</option>
-                <option value="dark-green">🌲 Dark Green</option>
-                <option value="dark-amber">🔥 Dark Amber</option>
-                <option value="dark-midnight">🌃 Midnight</option>
-                <option value="dark-charcoal">⚫ Charcoal</option>
-            </select>
+            <div class="theme-grid">
+                <button class="theme-btn active" data-theme="theme-neon" title="Slate">Slate</button>
+                <button class="theme-btn" data-theme="theme-cyberpunk" title="Graphite">Graphite</button>
+                <button class="theme-btn" data-theme="theme-ocean" title="Ocean">Ocean</button>
+                <button class="theme-btn" data-theme="theme-forest" title="Forest">Forest</button>
+                <button class="theme-btn" data-theme="theme-retro" title="Amber">Amber</button>
+                <button class="theme-btn" data-theme="theme-minimal" title="Minimal">Minimal</button>
+            </div>
         </div>
         
         <!-- Sezione Dimensione -->
@@ -621,7 +742,7 @@
             <header class="py-2 flex flex-col md:flex-row md:items-center gap-2">
                 <!-- Riga superiore mobile: titolo e orologio/ingranaggio -->
                 <div class="flex items-center justify-between w-full md:w-1/4">
-                    <h1 class="brand-title whitespace-nowrap text-lg md:text-xl">MY <span class="text-blue-400">BOOKMARKS</span></h1>
+                    <h1 class="brand-title whitespace-nowrap text-lg md:text-xl">MY <span class="text-slate-400">BOOKMARKS</span></h1>
                     <div class="flex items-center gap-2 md:hidden">
                         <div id="digital-clock-mobile" class="text-sm font-bold"></div>
                         <svg id="settings-toggle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white">
@@ -674,7 +795,6 @@
         const settingsSidebar = document.getElementById('settings-sidebar');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
         const sidebarClose = document.getElementById('sidebar-close');
-        const themeSelect = document.getElementById('theme-select');
         const scrollableContent = document.getElementById('scrollable-content');
 
         // ==================== FUNZIONI DI SICUREZZA ====================
@@ -752,76 +872,32 @@
         sidebarDeleteBg.onclick = deleteBackground;
 
         // ==================== THEME ====================
-        const savedTheme = localStorage.getItem('myDashTheme') || 'dark-default';
-        themeSelect.value = savedTheme;
+        const savedTheme = localStorage.getItem('myDashTheme') || 'theme-neon';
         applyTheme(savedTheme);
-
-        themeSelect.addEventListener('change', (e) => {
-            const theme = e.target.value;
-            localStorage.setItem('myDashTheme', theme);
-            applyTheme(theme);
+        
+        // Theme buttons handler
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            if (btn.getAttribute('data-theme') === savedTheme) {
+                btn.classList.add('active');
+            }
+            btn.addEventListener('click', (e) => {
+                const theme = e.target.getAttribute('data-theme');
+                localStorage.setItem('myDashTheme', theme);
+                applyTheme(theme);
+                
+                // Update active button
+                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+            });
         });
 
         function applyTheme(theme) {
-            const root = document.documentElement;
+            // Remove all theme classes
+            document.body.className = document.body.className.replace(/theme-\w+/g, '');
             
-            switch(theme) {
-                case 'dark-default':
-                    root.style.setProperty('--accent', '#60a5fa');
-                    root.style.setProperty('--text-main', '#ffffff');
-                    root.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)');
-                    root.style.setProperty('--widget-bg', 'rgba(30, 30, 30, 0.7)');
-                    root.style.setProperty('--widget-border', 'rgba(255, 255, 255, 0.15)');
-                    root.style.setProperty('--header-border', 'rgba(255, 255, 255, 0.1)');
-                    break;
-                case 'dark-blue':
-                    root.style.setProperty('--accent', '#3b82f6');
-                    root.style.setProperty('--text-main', '#ffffff');
-                    root.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #0a1929 0%, #1a2b3c 100%)');
-                    root.style.setProperty('--widget-bg', 'rgba(10, 25, 41, 0.7)');
-                    root.style.setProperty('--widget-border', 'rgba(59, 130, 246, 0.2)');
-                    root.style.setProperty('--header-border', 'rgba(59, 130, 246, 0.15)');
-                    break;
-                case 'dark-purple':
-                    root.style.setProperty('--accent', '#a78bfa');
-                    root.style.setProperty('--text-main', '#ffffff');
-                    root.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #1a0f1f 0%, #2a1a33 100%)');
-                    root.style.setProperty('--widget-bg', 'rgba(26, 15, 31, 0.7)');
-                    root.style.setProperty('--widget-border', 'rgba(167, 139, 250, 0.2)');
-                    root.style.setProperty('--header-border', 'rgba(167, 139, 250, 0.15)');
-                    break;
-                case 'dark-green':
-                    root.style.setProperty('--accent', '#4ade80');
-                    root.style.setProperty('--text-main', '#ffffff');
-                    root.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #0a1f1a 0%, #1a332a 100%)');
-                    root.style.setProperty('--widget-bg', 'rgba(10, 31, 26, 0.7)');
-                    root.style.setProperty('--widget-border', 'rgba(74, 222, 128, 0.2)');
-                    root.style.setProperty('--header-border', 'rgba(74, 222, 128, 0.15)');
-                    break;
-                case 'dark-amber':
-                    root.style.setProperty('--accent', '#fbbf24');
-                    root.style.setProperty('--text-main', '#ffffff');
-                    root.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #1f1a0a 0%, #332a1a 100%)');
-                    root.style.setProperty('--widget-bg', 'rgba(31, 26, 10, 0.7)');
-                    root.style.setProperty('--widget-border', 'rgba(251, 191, 36, 0.2)');
-                    root.style.setProperty('--header-border', 'rgba(251, 191, 36, 0.15)');
-                    break;
-                case 'dark-midnight':
-                    root.style.setProperty('--accent', '#38bdf8');
-                    root.style.setProperty('--text-main', '#ffffff');
-                    root.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #0a0f1f 0%, #141a2b 100%)');
-                    root.style.setProperty('--widget-bg', 'rgba(10, 15, 31, 0.7)');
-                    root.style.setProperty('--widget-border', 'rgba(56, 189, 248, 0.2)');
-                    root.style.setProperty('--header-border', 'rgba(56, 189, 248, 0.15)');
-                    break;
-                case 'dark-charcoal':
-                    root.style.setProperty('--accent', '#9ca3af');
-                    root.style.setProperty('--text-main', '#ffffff');
-                    root.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)');
-                    root.style.setProperty('--widget-bg', 'rgba(26, 26, 26, 0.8)');
-                    root.style.setProperty('--widget-border', 'rgba(156, 163, 175, 0.2)');
-                    root.style.setProperty('--header-border', 'rgba(156, 163, 175, 0.15)');
-                    break;
+            // Add new theme class
+            if (theme !== 'theme-neon') {
+                document.body.classList.add(theme);
             }
         }
 
@@ -1063,7 +1139,7 @@
             // Aggiungi tab Note
             const noteBtn = document.createElement('button');
             noteBtn.className = "tab-btn";
-            noteBtn.innerText = "NOTE 📝";
+            noteBtn.innerText = "NOTE";
             noteBtn.onclick = () => switchTab(noteBtn, 'tab-notes');
             nav.appendChild(noteBtn);
 
@@ -1071,7 +1147,7 @@
             noteSection.id = 'tab-notes';
             noteSection.className = 'page-content grid-layout';
             noteSection.style.columnCount = "1";
-            noteSection.innerHTML = `<div class="max-w-4xl mx-auto">
+            noteSection.innerHTML = `<div class="max-w-4xl mx-auto notes-widget">
                 <div class="widget-title">Appunti Locali</div>
                 <textarea id="notes-area"></textarea>
             </div>`;
