@@ -121,6 +121,7 @@
 ## IA Scuola
 - [MagicSchool AI](https://app.magicschool.ai/tools)
 - [Teachable Machine](https://teachablemachine.withgoogle.com/)
+- [Minerva Education](https://minervaeducationai.it)
 
 ## Formazione
 - [CFI-Scuola](https://corsi.cfiscuola.it)
