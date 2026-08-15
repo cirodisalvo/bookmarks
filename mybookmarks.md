@@ -174,6 +174,9 @@
 - [HOEPLI](https://www.hoepli.it/)
 - [Project Gutenberg](https://www.gutenberg.org/)
 
+## Dizionari
+- [reader.dict](https://www.reader-dict.com/it/download/it)
+
 ---
 
 # APP 💽
