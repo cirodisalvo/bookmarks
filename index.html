@@ -288,6 +288,28 @@
             grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); 
             gap: 14px;
         }
+
+        .links-separator {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 4px 0;
+            color: #94a3b8;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            white-space: nowrap;
+        }
+
+        .links-separator::before,
+        .links-separator::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--widget-border);
+        }
         
         .bookmark-pill { 
             display: flex; 
@@ -1047,6 +1069,16 @@
                     currentSubsection = line.replace('## ', '').trim();
                     result.push([`-${currentSubsection}`, '']);
                 }
+                else if (line.startsWith('<!--') && line.endsWith('-->')) {
+                    const separatorName = line
+                        .replace('<!--', '')
+                        .replace('-->', '')
+                        .trim();
+
+                    if (separatorName) {
+                        result.push([`@separator:${separatorName}`, '']);
+                    }
+                }
                 else if (line.startsWith('- [')) {
                     const match = line.match(/\[(.+?)\]\((.+?)\)/);
                     if (match) {
@@ -1057,10 +1089,10 @@
 
             return result;
         }
-
         function processData(rows) {
             const dataStructure = {};
             let currentCat = "Home";
+            let currentSub = "";
             
             rows.forEach(row => {
                 let colA = row[0] ? String(row[0]).trim() : "";
@@ -1069,17 +1101,33 @@
                 if (colA.startsWith('#')) { 
                     currentCat = colA.replace('#', '').trim(); 
                     dataStructure[currentCat] = {}; 
+                    currentSub = "";
                 } 
                 else if (colA.startsWith('-')) { 
                     let sub = colA.replace('-', '').trim(); 
                     if (!dataStructure[currentCat]) dataStructure[currentCat] = {}; 
                     dataStructure[currentCat][sub] = []; 
-                } 
+                    currentSub = sub;
+                }
+                else if (colA.startsWith('@separator:')) {
+                    const separatorName = colA.replace('@separator:', '').trim();
+                    
+                    if (currentSub && dataStructure[currentCat][currentSub]) {
+                        dataStructure[currentCat][currentSub].push({
+                            type: 'separator',
+                            title: separatorName
+                        });
+                    }
+                }
                 else if (colA && colB.startsWith('http')) {
                     const subs = Object.keys(dataStructure[currentCat] || {});
-                    const lastSub = subs[subs.length - 1] || "Link";
+                    const lastSub = currentSub || subs[subs.length - 1] || "Link";
                     if (!dataStructure[currentCat][lastSub]) dataStructure[currentCat][lastSub] = [];
-                    dataStructure[currentCat][lastSub].push({ title: colA, url: colB });
+                    dataStructure[currentCat][lastSub].push({ 
+                        type: 'link',
+                        title: colA, 
+                        url: colB 
+                    });
                 }
             });
             
@@ -1114,6 +1162,12 @@
                     let html = `<div class="widget-title">${subName}</div><div class="links-grid">`;
                     
                     links.forEach(l => {
+
+                        if (l.type === 'separator') {
+                            html += `<div class="links-separator">${l.title}</div>`;
+                            return;
+                        }
+
                         let domain = "google.com";
                         try { domain = new URL(l.url).hostname; } catch(e) {}
                         
