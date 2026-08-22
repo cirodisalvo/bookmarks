@@ -41,10 +41,14 @@
 - [Disroot](https://webmail.disroot.org)
 
 ## Shop
+<!-- Pagamenti -->
 - [UniCredit Banca](https://www.unicredit.it/it/privati.html)
 - [Poste Ita](https://www.poste.it/)
+- [PayPal](https://www.paypal.com/it/signin)
 - [EdisonEnergia](https://www.edisonenergia.it/login)
+<!-- Tech e Auto -->
 - [Amazon](https://www.amazon.it/)
+- [AutoDoc](https://www.auto-doc.it)
 <!-- Vestiti -->
 - [Cotton&Silk](https://www.cottonsilk.it/it)
 - [Privalia](https://it.privalia.com/gr/home/default)
@@ -53,10 +57,9 @@
 - [H&M](https://www2.hm.com/it_it/index.html)
 - [Reinold's Fashion SGG](https://www.reinolds.it/web/)
 - [UPIM](https://www.upim.com)
+<!-- Sim Mobile -->
 - [iliad](https://www.iliad.it/account/)
 - [ho. Mobile](https://www.ho-mobile.it/login.html)
-- [PayPal](https://www.paypal.com/it/signin)
-- [AutoDoc](https://www.auto-doc.it)
 
 ## IA
 - [Google Gemini](https://gemini.google.com/app)
