@@ -45,16 +45,17 @@
 - [Poste Ita](https://www.poste.it/)
 - [EdisonEnergia](https://www.edisonenergia.it/login)
 - [Amazon](https://www.amazon.it/)
+<!-- Vestiti -->
 - [Cotton&Silk](https://www.cottonsilk.it/it)
 - [Privalia](https://it.privalia.com/gr/home/default)
 - [Zalando](https://www.zalando.it)
 - [Uniquo](https://www.uniqlo.com)
 - [H&M](https://www2.hm.com/it_it/index.html)
+- [Reinold's Fashion SGG](https://www.reinolds.it/web/)
+- [UPIM](https://www.upim.com)
 - [iliad](https://www.iliad.it/account/)
 - [ho. Mobile](https://www.ho-mobile.it/login.html)
 - [PayPal](https://www.paypal.com/it/signin)
-- [Reinold's Fashion SGG](https://www.reinolds.it/web/)
-- [UPIM](https://www.upim.com)
 - [AutoDoc](https://www.auto-doc.it)
 
 ## IA
