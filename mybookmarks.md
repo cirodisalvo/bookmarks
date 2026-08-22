@@ -49,6 +49,7 @@
 - [Privalia](https://it.privalia.com/gr/home/default)
 - [Zalando](https://www.zalando.it)
 - [Uniquo](https://www.uniqlo.com)
+- [H&M](https://www2.hm.com/it_it/index.html)
 - [iliad](https://www.iliad.it/account/)
 - [ho. Mobile](https://www.ho-mobile.it/login.html)
 - [PayPal](https://www.paypal.com/it/signin)
