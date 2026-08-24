@@ -205,7 +205,7 @@ const bookmarks = `# Personale 🧑‍🦲
 - [Ventoy](https://github.com/ventoy/Ventoy/releases)
 
 ## Browser
-- [MyDashboard](https://github.com/cirodisalvo/bookmarks/blob/main/mybookmarks.md)
+- [MyDashboard](https://github.com/cirodisalvo/bookmarks/blob/main/mybookmarks.js)
 - [Addons Firefox](https://addons.mozilla.org/it/firefox/)
 - [Centro sviluppo](https://addons.mozilla.org/it/developers/addons)
 
