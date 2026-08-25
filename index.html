@@ -414,6 +414,94 @@
             border-color: rgba(148, 163, 184, 0.32);
         }
         
+        /* ==================== LINKS TEMPORANEI ==================== */
+        .temp-links-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #temp-link-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--widget-border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            outline: none;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: border-color 0.2s ease;
+        }
+
+        #temp-link-input:focus {
+            border-color: var(--accent);
+        }
+
+        #temp-link-add-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--accent);
+            background: var(--accent);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            white-space: nowrap;
+        }
+
+        #temp-link-add-btn:hover {
+            opacity: 0.88;
+        }
+
+        #temp-link-error {
+            color: #f87171;
+            font-size: 0.75rem;
+            margin-top: -12px;
+            margin-bottom: 16px;
+            min-height: 1em;
+        }
+
+        .temp-links-empty {
+            text-align: center;
+            color: var(--accent-3);
+            font-size: 0.85rem;
+            padding: 30px 0;
+            opacity: 0.7;
+        }
+
+        .bookmark-pill.temp-pill {
+            position: relative;
+        }
+
+        .temp-pill-delete {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            color: #f87171;
+            font-size: 0.75rem;
+            font-weight: 700;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            transition: background 0.15s ease, transform 0.15s ease;
+        }
+
+        .temp-pill-delete:hover {
+            background: #f87171;
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
         #search-bar { 
             background: rgba(30, 30, 30, 0.7); 
             backdrop-filter: blur(10px); 
@@ -1208,7 +1296,33 @@
             const textarea = noteSection.querySelector('#notes-area');
             textarea.value = localStorage.getItem('myDashNotes') || "";
             textarea.addEventListener('input', () => localStorage.setItem('myDashNotes', textarea.value));
-            
+
+            // Aggiungi tab Links Temporanei
+            const tempBtn = document.createElement('button');
+            tempBtn.className = "tab-btn";
+            tempBtn.innerText = "LINKS TEMPORANEI";
+            tempBtn.onclick = () => switchTab(tempBtn, 'tab-temp-links');
+            nav.appendChild(tempBtn);
+
+            const tempSection = document.createElement('div');
+            tempSection.id = 'tab-temp-links';
+            tempSection.className = 'page-content grid-layout';
+            tempSection.style.columnCount = "1";
+            tempSection.innerHTML = `<div class="max-w-4xl mx-auto">
+                <div class="category-widget">
+                    <div class="widget-title">Links Temporanei</div>
+                    <div class="temp-links-form">
+                        <input type="text" id="temp-link-input" placeholder="Incolla qui un URL (es. https://...)">
+                        <button id="temp-link-add-btn" type="button">Aggiungi</button>
+                    </div>
+                    <div id="temp-link-error"></div>
+                    <div class="links-grid" id="temp-links-grid"></div>
+                </div>
+            </div>`;
+            main.appendChild(tempSection);
+
+            setupTempLinks();
+
             setupSearch();
             
             applyTheme(localStorage.getItem('myDashTheme') || 'dark-default');
@@ -1228,12 +1342,133 @@
             }
         }
 
+        // ==================== LINKS TEMPORANEI ====================
+        function getTempLinks() {
+            try {
+                return JSON.parse(localStorage.getItem('myDashTempLinks') || '[]');
+            } catch {
+                return [];
+            }
+        }
+
+        function saveTempLinks(links) {
+            localStorage.setItem('myDashTempLinks', JSON.stringify(links));
+        }
+
+        function deriveTitleFromUrl(url) {
+            try {
+                let host = new URL(url).hostname;
+                host = host.replace(/^www\./, '');
+                return host;
+            } catch {
+                return url;
+            }
+        }
+
+        function renderTempLinks() {
+            const grid = document.getElementById('temp-links-grid');
+            if (!grid) return;
+            const links = getTempLinks();
+            grid.innerHTML = "";
+
+            if (links.length === 0) {
+                grid.innerHTML = `<div class="temp-links-empty" style="grid-column: 1 / -1;">Nessun link temporaneo salvato. Incolla un URL qui sopra per aggiungerlo.</div>`;
+                return;
+            }
+
+            links.forEach((l, index) => {
+                let domain = "google.com";
+                try { domain = new URL(l.url).hostname; } catch(e) {}
+
+                const safeUrl = sanitizeUrl(l.url);
+
+                const pill = document.createElement('a');
+                pill.href = safeUrl;
+                pill.target = "_blank";
+                pill.rel = "noopener noreferrer";
+                pill.title = l.title;
+                pill.className = "bookmark-pill temp-pill";
+                pill.setAttribute('data-title', l.title.toLowerCase());
+                pill.innerHTML = `
+                    <span class="temp-pill-delete" data-index="${index}" title="Elimina">&times;</span>
+                    <div class="favicon-box">
+                        <img loading="lazy" src="https://icons.duckduckgo.com/ip3/${domain}.ico" alt="${l.title}">
+                    </div>
+                    <span class="link-label">${l.title}</span>
+                `;
+                grid.appendChild(pill);
+            });
+
+            grid.querySelectorAll('.temp-pill-delete').forEach(delBtn => {
+                delBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const idx = parseInt(delBtn.getAttribute('data-index'), 10);
+                    const current = getTempLinks();
+                    current.splice(idx, 1);
+                    saveTempLinks(current);
+                    renderTempLinks();
+                });
+            });
+        }
+
+        function addTempLink(rawUrl) {
+            const errorEl = document.getElementById('temp-link-error');
+            errorEl.textContent = "";
+
+            let url = rawUrl.trim();
+            if (!url) return;
+
+            // Se manca il protocollo, prova ad aggiungerlo
+            if (!/^https?:\/\//i.test(url)) {
+                url = 'https://' + url;
+            }
+
+            let parsed;
+            try {
+                parsed = new URL(url);
+                if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+                    throw new Error('protocollo non valido');
+                }
+            } catch {
+                errorEl.textContent = "URL non valido.";
+                return;
+            }
+
+            const title = deriveTitleFromUrl(url);
+            const links = getTempLinks();
+            links.unshift({ title, url });
+            saveTempLinks(links);
+            renderTempLinks();
+
+            const input = document.getElementById('temp-link-input');
+            if (input) input.value = "";
+        }
+
+        function setupTempLinks() {
+            renderTempLinks();
+
+            const input = document.getElementById('temp-link-input');
+            const addBtn = document.getElementById('temp-link-add-btn');
+
+            if (addBtn) {
+                addBtn.addEventListener('click', () => addTempLink(input.value));
+            }
+            if (input) {
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addTempLink(input.value);
+                    }
+                });
+            }
+        }
+
         // ==================== SEARCH ====================
         let searchTimeout;
         function setupSearch() {
             const searchBar = document.getElementById('search-bar');
             const searchResults = document.getElementById('search-results');
-            const allPills = document.querySelectorAll('.bookmark-pill');
             
             searchBar.addEventListener('input', (e) => {
                 clearTimeout(searchTimeout);
@@ -1243,10 +1478,14 @@
                     if (term.length > 0) {
                         document.body.classList.add('search-mode');
                         searchResults.innerHTML = '';
+                        const allPills = document.querySelectorAll('.bookmark-pill');
                         
                         allPills.forEach(p => {
                             if (p.getAttribute('data-title').includes(term)) {
-                                searchResults.appendChild(p.cloneNode(true));
+                                const clone = p.cloneNode(true);
+                                const delBtn = clone.querySelector('.temp-pill-delete');
+                                if (delBtn) delBtn.remove();
+                                searchResults.appendChild(clone);
                             }
                         });
                     } else {
