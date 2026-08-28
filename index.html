@@ -6,9 +6,32 @@
     <meta name="color-scheme" content="dark light">
 
     <title>MY BOOKMARKS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* ==================== RESET BASE (equivalente al preflight Tailwind) ==================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: currentColor;
+            margin: 0;
+            padding: 0;
+        }
+        html { -webkit-text-size-adjust: 100%; }
+        body { line-height: inherit; }
+        h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
+        button, input, select, textarea {
+            font-family: inherit;
+            font-size: 100%;
+            font-weight: inherit;
+            line-height: inherit;
+            color: inherit;
+            background-color: transparent;
+        }
+        button { cursor: pointer; text-transform: none; }
+        img, svg { display: block; vertical-align: middle; }
+        img { max-width: 100%; height: auto; }
+
         :root { 
             --accent: #3b82f6;
             --accent-2: #64748b;
@@ -23,11 +46,14 @@
             --scale-factor: 1;
             --icon-size: 56px;
             --icon-padding: 11px;
+            --pill-padding: 8px;
             --font-size-link: 0.7rem;
+            --grid-min-col: 75px;
             --font-size-title: 0.75rem;
             --font-size-tab: 0.875rem;
             --font-size-brand: 1.8rem;
             --font-size-clock: 1.7rem;
+            --pinned-bar-width: 68px;
             --widget-padding: 22px;
             --grid-gap: 14px;
             --tab-padding: 9px 20px;
@@ -145,27 +171,236 @@
 
         .scrollable-content {
             flex: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .content-scroll-wrapper {
+            flex: 1;
+            min-width: 0;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 0.5rem 0.5rem 0 0.5rem;
+            padding: 0.5rem 0.5rem 0 0;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: thin;
             scrollbar-color: var(--accent) rgba(255,255,255,0.1);
         }
 
         /* Scrollbar personalizzata */
-        .scrollable-content::-webkit-scrollbar {
+        .content-scroll-wrapper::-webkit-scrollbar {
             width: 8px;
         }
 
-        .scrollable-content::-webkit-scrollbar-track {
+        .content-scroll-wrapper::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
         }
 
-        .scrollable-content::-webkit-scrollbar-thumb {
+        .content-scroll-wrapper::-webkit-scrollbar-thumb {
             background: rgba(96, 165, 250, 0.3);
             border-radius: 10px;
+        }
+
+        /* ==================== BARRA PREFERITI ==================== */
+        .pinned-bar {
+            flex-shrink: 0;
+            width: var(--pinned-bar-width);
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: rgba(0, 0, 0, 0.18);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-right: 1px solid var(--widget-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 8px;
+            scrollbar-width: thin;
+            transition: width 0.2s ease, padding 0.2s ease, opacity 0.2s ease;
+        }
+
+        .pinned-bar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .pinned-bar.hidden-bar {
+            width: 0;
+            padding: 0;
+            border-right: none;
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        .pinned-bar-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            min-height: 40px;
+        }
+
+        .pinned-bar-empty {
+            font-size: 0.6rem;
+            text-align: center;
+            color: var(--accent-3);
+            opacity: 0.55;
+            line-height: 1.3;
+            padding-top: 6px;
+        }
+
+        .pinned-item {
+            position: relative;
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--widget-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: border-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .pinned-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .pinned-item.drag-over {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+
+        .pinned-item img {
+            width: 23px;
+            height: 23px;
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        .pinned-item-delete {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            color: #f87171;
+            font-size: 0.65rem;
+            font-weight: 700;
+            line-height: 1;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .pinned-item:hover .pinned-item-delete {
+            display: flex;
+        }
+
+        .pinned-bar-dropzone-active {
+            border-color: var(--accent) !important;
+            background: rgba(96, 165, 250, 0.08);
+        }
+
+        @media (max-width: 768px) {
+            .pinned-bar {
+                display: none;
+            }
+            .header-spacer {
+                width: 0 !important;
+            }
+        }
+
+        .fixed-header-row {
+            display: flex;
+            align-items: stretch;
+            width: 100%;
+        }
+
+        .header-spacer {
+            flex-shrink: 0;
+            width: 0;
+            transition: width 0.2s ease;
+        }
+
+        body.pinned-bar-on .header-spacer {
+            width: var(--pinned-bar-width);
+        }
+
+        #header-inner {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 42px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            transition: 0.2s ease;
+        }
+
+        .toggle-switch-slider::before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            transition: 0.2s ease;
+        }
+
+        .toggle-switch input:checked + .toggle-switch-slider {
+            background-color: var(--accent);
+        }
+
+        .toggle-switch input:checked + .toggle-switch-slider::before {
+            transform: translateX(18px);
+        }
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 14px 18px;
+        }
+
+        .toggle-row span {
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .brand-title { 
@@ -285,8 +520,8 @@
         
         .links-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); 
-            gap: 14px;
+            grid-template-columns: repeat(auto-fill, minmax(var(--grid-min-col), 1fr)); 
+            gap: var(--grid-gap);
         }
 
         .links-separator {
@@ -318,7 +553,7 @@
             gap: 8px; 
             text-decoration: none; 
             transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease; 
-            padding: 8px; 
+            padding: var(--pill-padding); 
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -761,6 +996,54 @@
             font-size: 0.7rem;
             margin-bottom: 10px;
         }
+
+        /* ==================== UTILITY (sostituiscono Tailwind CDN) ==================== */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .flex-wrap { flex-wrap: wrap; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-end { justify-content: flex-end; }
+        .hidden { display: none; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-3 { gap: 0.75rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .w-full { width: 100%; }
+        .w-1\/4 { width: 25%; }
+        .max-w-4xl { max-width: 56rem; }
+        .max-w-\[1700px\] { max-width: 1700px; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+        .rounded-2xl { border-radius: 1rem; }
+        .border { border-width: 1px; border-style: solid; }
+        .border-white\/20 { border-color: rgba(255, 255, 255, 0.2); }
+        .bg-white\/10 { background-color: rgba(255, 255, 255, 0.1); }
+        .backdrop-blur { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        .text-white { color: #ffffff; }
+        .text-slate-400 { color: #94a3b8; }
+        .text-gray-400 { color: #9ca3af; }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .text-xs { font-size: 0.75rem; line-height: 1rem; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .font-bold { font-weight: 700; }
+        .opacity-70 { opacity: 0.7; }
+        .whitespace-nowrap { white-space: nowrap; }
+        .cursor-pointer { cursor: pointer; }
+        #search-bar.placeholder-white\/50::placeholder { color: rgba(255, 255, 255, 0.5); }
+
+        @media (min-width: 768px) {
+            .md\:flex { display: flex; }
+            .md\:hidden { display: none; }
+            .md\:flex-row { flex-direction: row; }
+            .md\:items-center { align-items: center; }
+            .md\:mx-0 { margin-left: 0; margin-right: 0; }
+            .md\:w-1\/2 { width: 50%; }
+            .md\:w-1\/4 { width: 25%; }
+            .md\:text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        }
     </style>
 </head>
 <body class="fixed-layout">
@@ -842,13 +1125,27 @@
             </div>
         </div>
 
+        <!-- Sezione Barra Preferiti -->
+        <div class="settings-section">
+            <h3>Barra Preferiti</h3>
+            <div class="toggle-row">
+                <span>Mostra barra laterale</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="pinned-bar-toggle" checked>
+                    <span class="toggle-switch-slider"></span>
+                </label>
+            </div>
+        </div>
+
          <!-- DIV INVISIBILE PER SPAZIO IN BASSO NELLA SIDEBAR - IMPORTANTE PER TABLET -->
         <div style="height: 150px; width: 100%; opacity: 0; pointer-events: none;"></div>
     </div> <!-- Chiusura settings-sidebar -->
 
     <!-- HEADER -->
     <div class="fixed-header">
-        <div class="max-w-[1700px] mx-auto px-4">
+        <div class="fixed-header-row">
+        <div class="header-spacer" id="header-spacer"></div>
+        <div class="max-w-[1700px] mx-auto px-4" id="header-inner">
             <header class="py-2 flex flex-col md:flex-row md:items-center gap-2">
                 <!-- Riga superiore mobile: titolo e orologio/ingranaggio -->
                 <div class="flex items-center justify-between w-full md:w-1/4">
@@ -878,17 +1175,25 @@
 
             <nav id="tabs-nav" class="flex flex-wrap"></nav>
         </div>
+        </div>
     </div>
 
     <!-- CONTENUTO SCORREVOLE -->
     <div class="scrollable-content" id="scrollable-content">
-        <div class="max-w-[1700px] mx-auto px-4">
-            <div id="search-results"></div>
-            <main id="main-content">
-                <div id="loader" class="text-center py-20 text-gray-400 font-bold">Sincronizzazione...</div>
-            </main>
-            <!-- Div invisibile che crea spazio fisico in basso -->
-            <div style="height: 150px; width: 100%; opacity: 0; pointer-events: none;"></div>
+        <!-- Barra Preferiti (verticale, sotto la linea header) -->
+        <div id="pinned-bar" class="pinned-bar">
+            <div id="pinned-bar-list" class="pinned-bar-list"></div>
+        </div>
+
+        <div class="content-scroll-wrapper" id="content-scroll-wrapper">
+            <div class="max-w-[1700px] mx-auto px-4">
+                <div id="search-results"></div>
+                <main id="main-content">
+                    <div id="loader" class="text-center py-20 text-gray-400 font-bold">Sincronizzazione...</div>
+                </main>
+                <!-- Div invisibile che crea spazio fisico in basso -->
+                <div style="height: 150px; width: 100%; opacity: 0; pointer-events: none;"></div>
+            </div>
         </div>
     </div>
 
@@ -1027,14 +1332,10 @@
             document.documentElement.style.setProperty('--scale-factor', scale);
             document.documentElement.style.setProperty('--icon-size', `${56 * scale}px`);
             document.documentElement.style.setProperty('--icon-padding', `${11 * scale}px`);
-            document.documentElement.style.setProperty('--font-size-link', `${0.7 * scale}rem`);
-            document.documentElement.style.setProperty('--font-size-title', `${0.75 * scale}rem`);
-            document.documentElement.style.setProperty('--font-size-tab', `${0.875 * scale}rem`);
-            document.documentElement.style.setProperty('--font-size-brand', `${1.8 * scale}rem`);
-            document.documentElement.style.setProperty('--font-size-clock', `${1.7 * scale}rem`);
-            document.documentElement.style.setProperty('--widget-padding', `${22 * scale}px`);
+            document.documentElement.style.setProperty('--pill-padding', `${8 * scale}px`);
             document.documentElement.style.setProperty('--grid-gap', `${14 * scale}px`);
-            document.documentElement.style.setProperty('--tab-padding', `${9 * scale}px ${20 * scale}px`);
+            document.documentElement.style.setProperty('--grid-min-col', `${75 * scale}px`);
+            document.documentElement.style.setProperty('--font-size-link', `${0.7 * scale}rem`);
             
             localStorage.setItem('myDashSize', size);
         }
@@ -1125,6 +1426,7 @@
         // ==================== DASHBOARD INIT ====================
         async function init() {
             loadSavedBackground();
+            setupPinnedBar();
             try {
                 // Usa la variabile "bookmarks" definita in mybookmarks.js (caricato con <script>)
                 if (typeof bookmarks === 'undefined') {
@@ -1260,7 +1562,7 @@
                         // Usa sanitizeUrl per proteggere da URL malevoli
                         const safeUrl = sanitizeUrl(l.url);
                         
-                        html += `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer" title="${l.title}" class="bookmark-pill" data-title="${l.title.toLowerCase()}">
+                        html += `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer" title="${l.title}" class="bookmark-pill" data-title="${l.title.toLowerCase()}" draggable="true">
                             <div class="favicon-box">
                                  <img loading="lazy" src="https://icons.duckduckgo.com/ip3/${domain}.ico" alt="${l.title}">
                             </div>
@@ -1389,6 +1691,7 @@
                 pill.title = l.title;
                 pill.className = "bookmark-pill temp-pill";
                 pill.setAttribute('data-title', l.title.toLowerCase());
+                pill.setAttribute('draggable', 'true');
                 pill.innerHTML = `
                     <span class="temp-pill-delete" data-index="${index}" title="Elimina">&times;</span>
                     <div class="favicon-box">
@@ -1462,6 +1765,174 @@
                     }
                 });
             }
+        }
+
+        // ==================== BARRA PREFERITI ====================
+        function getPinned() {
+            try {
+                return JSON.parse(localStorage.getItem('myDashPinned') || '[]');
+            } catch {
+                return [];
+            }
+        }
+
+        function savePinned(items) {
+            localStorage.setItem('myDashPinned', JSON.stringify(items));
+        }
+
+        function addPinned(title, url) {
+            if (!url) return;
+            const items = getPinned();
+            if (items.some(p => p.url === url)) return; // già presente
+            items.push({ title: title || deriveTitleFromUrl(url), url });
+            savePinned(items);
+            renderPinnedBar();
+        }
+
+        function removePinned(index) {
+            const items = getPinned();
+            items.splice(index, 1);
+            savePinned(items);
+            renderPinnedBar();
+        }
+
+        function renderPinnedBar() {
+            const list = document.getElementById('pinned-bar-list');
+            if (!list) return;
+            const items = getPinned();
+            list.innerHTML = "";
+
+            if (items.length === 0) {
+                list.innerHTML = `<div class="pinned-bar-empty">Trascina qui un link per aggiungerlo ai preferiti</div>`;
+                return;
+            }
+
+            items.forEach((p, index) => {
+                let domain = "google.com";
+                try { domain = new URL(p.url).hostname; } catch(e) {}
+                const safeUrl = sanitizeUrl(p.url);
+
+                const el = document.createElement('a');
+                el.href = safeUrl;
+                el.target = "_blank";
+                el.rel = "noopener noreferrer";
+                el.title = p.title;
+                el.className = "pinned-item";
+                el.setAttribute('draggable', 'true');
+                el.setAttribute('data-pinned-index', index);
+                el.innerHTML = `
+                    <span class="pinned-item-delete" data-index="${index}" title="Rimuovi">&times;</span>
+                    <img loading="lazy" src="https://icons.duckduckgo.com/ip3/${domain}.ico" alt="${p.title}">
+                `;
+                list.appendChild(el);
+            });
+
+            list.querySelectorAll('.pinned-item-delete').forEach(delBtn => {
+                delBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    removePinned(parseInt(delBtn.getAttribute('data-index'), 10));
+                });
+            });
+        }
+
+        function extractPillData(pill) {
+            const url = pill.getAttribute('href');
+            if (!url || url === '#') return null;
+            const label = pill.querySelector('.link-label');
+            const title = label ? label.textContent.trim() : (pill.getAttribute('title') || deriveTitleFromUrl(url));
+            return { title, url };
+        }
+
+        function setupPinnedBar() {
+            renderPinnedBar();
+
+            // Visibilità (toggle in impostazioni)
+            const pinnedBarEl = document.getElementById('pinned-bar');
+            const toggle = document.getElementById('pinned-bar-toggle');
+            const savedVisible = localStorage.getItem('myDashPinnedBarVisible');
+            const visible = savedVisible === null ? true : savedVisible === 'true';
+
+            function applyVisibility(v) {
+                pinnedBarEl.classList.toggle('hidden-bar', !v);
+                document.body.classList.toggle('pinned-bar-on', v);
+                if (toggle) toggle.checked = v;
+            }
+            applyVisibility(visible);
+
+            if (toggle) {
+                toggle.addEventListener('change', () => {
+                    localStorage.setItem('myDashPinnedBarVisible', toggle.checked);
+                    applyVisibility(toggle.checked);
+                });
+            }
+
+            // Drag di un bookmark (fisso o temporaneo) -> genera i dati da trasportare
+            document.addEventListener('dragstart', (e) => {
+                const pill = e.target.closest('.bookmark-pill');
+                if (!pill) return;
+                const data = extractPillData(pill);
+                if (!data) return;
+                e.dataTransfer.effectAllowed = 'copy';
+                e.dataTransfer.setData('application/x-bookmark', JSON.stringify(data));
+            });
+
+            // Drag di un elemento già appuntato -> per riordino
+            document.addEventListener('dragstart', (e) => {
+                const item = e.target.closest('.pinned-item');
+                if (!item) return;
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('application/x-pinned-index', item.getAttribute('data-pinned-index'));
+            });
+
+            const list = document.getElementById('pinned-bar-list');
+
+            list.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                pinnedBarEl.classList.add('pinned-bar-dropzone-active');
+            });
+
+            list.addEventListener('dragleave', (e) => {
+                if (!list.contains(e.relatedTarget)) {
+                    pinnedBarEl.classList.remove('pinned-bar-dropzone-active');
+                }
+            });
+
+            list.addEventListener('drop', (e) => {
+                e.preventDefault();
+                pinnedBarEl.classList.remove('pinned-bar-dropzone-active');
+
+                const reorderIndex = e.dataTransfer.getData('application/x-pinned-index');
+                const targetItem = e.target.closest('.pinned-item');
+
+                if (reorderIndex !== "" && targetItem) {
+                    // Riordino interno
+                    const fromIndex = parseInt(reorderIndex, 10);
+                    const toIndex = parseInt(targetItem.getAttribute('data-pinned-index'), 10);
+                    if (fromIndex === toIndex) return;
+                    const items = getPinned();
+                    const [moved] = items.splice(fromIndex, 1);
+                    items.splice(toIndex, 0, moved);
+                    savePinned(items);
+                    renderPinnedBar();
+                    return;
+                }
+
+                const bookmarkData = e.dataTransfer.getData('application/x-bookmark');
+                if (bookmarkData) {
+                    try {
+                        const { title, url } = JSON.parse(bookmarkData);
+                        addPinned(title, url);
+                    } catch {}
+                    return;
+                }
+
+                // Fallback: drag esterno (da un'altra pagina/scheda del browser)
+                const externalUrl = e.dataTransfer.getData('text/uri-list') || e.dataTransfer.getData('text/plain');
+                if (externalUrl && /^https?:\/\//i.test(externalUrl.trim())) {
+                    addPinned(null, externalUrl.trim());
+                }
+            });
         }
 
         // ==================== SEARCH ====================
