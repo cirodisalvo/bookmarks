@@ -257,6 +257,11 @@ const bookmarks = `# Personale 🧑‍🦲
 - [Socrative](https://www.socrative.com/)
 - [Plickers](https://www.plickers.com)
 
+## Creare contenuti multimediali
+- [Canva](https://www.canva.com)
+- [Genially](https://genially.com)
+- [BookCreator](https://bookcreator.com/)
+
 
 
 
