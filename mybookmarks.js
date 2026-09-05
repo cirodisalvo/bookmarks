@@ -250,4 +250,10 @@ const bookmarks = `# Personale 🧑‍🦲
 ## Lavagne
 - [Excalidrae](https://excalidraw.com/)
 - [DrawChat](https://draw.chat)
+
+## Quiz e Valutazione interattiva
+- [Kahoot!](https://kahoot.it/)
+- [Quizziz](https://wayground.com)
+- [Socrative](https://www.socrative.com/)
+- [Plickers](https://www.plickers.com)
 `;
