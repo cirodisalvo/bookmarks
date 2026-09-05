@@ -224,6 +224,7 @@ const bookmarks = `# Personale 🧑‍🦲
 - [Remove Background](https://www.remove.bg/it/upload)
 - [Disegno Matita](https://www.fotoeffetti.com/cat-modificare-foto/convertire-picture-disegno-a-matita)
 - [Resize Image](https://www.birme.net)
+- [Maskable Icon](https://maskable.app/editor)
 
 ## YouTube Tools
 - [YouTube Subtitles](https://www.dvdvideosoft.com/online-youtube-subtitles-download)
