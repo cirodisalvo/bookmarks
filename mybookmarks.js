@@ -261,6 +261,7 @@ const bookmarks = `# Personale 🧑‍🦲
 - [Canva](https://www.canva.com)
 - [Genially](https://genially.com)
 - [BookCreator](https://bookcreator.com/)
+- [Emaze](https://www.emaze.com/)
 
 
 
