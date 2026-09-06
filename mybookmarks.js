@@ -19,6 +19,7 @@ const bookmarks = `# Personale 🧑‍🦲
 - [Meet](https://meet.google.com/)
 - [Translate](https://translate.google.com/)
 - [Contacts](https://contacts.google.com/)
+- [Script](https://script.google.com/)
 
 ## Social
 - [WhatsApp](https://web.whatsapp.com/)
