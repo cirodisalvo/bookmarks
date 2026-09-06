@@ -264,6 +264,9 @@ const bookmarks = `# Personale 🧑‍🦲
 - [BookCreator](https://bookcreator.com/)
 - [Emaze](https://www.emaze.com/)
 
+## Bacheche virtuali e condivisione
+- [Padlet](https://padlet.com)
+
 
 
 
